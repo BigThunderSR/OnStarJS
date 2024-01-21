@@ -70,7 +70,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-typescript": "^11.1.0",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/jest": "^29.5.1",
     "@types/jsonwebtoken": "^9.0.1",
     "@types/uuid": "^9.0.1",
