@@ -64,7 +64,7 @@
   },
   "homepage": "https://github.com/samrum/OnStarJS#readme",
   "dependencies": {
-    "axios": "^1.6.5",
+    "axios": "^1.6.7",
     "jsonwebtoken": "^9.0.2",
     "uuid": "^9.0.1"
   },
