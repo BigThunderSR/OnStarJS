@@ -32,8 +32,8 @@ devDependencies:
     specifier: ^9.0.8
     version: 9.0.8
   dotenv:
-    specifier: ^16.4.1
-    version: 16.4.1
+    specifier: ^16.4.2
+    version: 16.4.2
   husky:
     specifier: ^8.0.3
     version: 8.0.3
@@ -1606,8 +1606,8 @@ packages:
       is-obj: 2.0.0
     dev: true
 
-  /dotenv@16.4.1:
-    resolution: {integrity: sha512-CjA3y+Dr3FyFDOAMnxZEGtnW9KBR2M0JvvUtXNW+dYJL5ROWxP9DUHCwgFqpMk0OXCc0ljhaNTr2w/kutYIcHQ==}
+  /dotenv@16.4.2:
+    resolution: {integrity: sha512-rZSSFxke7d9nYQ5NeMIwp5PP+f8wXgKNljpOb7KtH6SKW1cEqcXAz9VSJYVLKe7Jhup/gUYOkaeSVyK8GJ+nBg==}
     engines: {node: '>=12'}
     dev: true
 
