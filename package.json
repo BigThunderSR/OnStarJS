@@ -20,8 +20,8 @@
     "test": "test"
   },
   "scripts": {
-    "build": "rm -rf dist && rollup -c",
-    "dev": "rm -rf dist && rollup -c -w",
+    "build": "rimraf dist && rollup -c",
+    "dev": "rimraf dist && rollup -c -w",
     "lint": "prettier --write .",
     "prepublishOnly": "pnpm run build",
     "release": "standard-version --sign",
@@ -66,6 +66,7 @@
   "dependencies": {
     "axios": "^1.6.7",
     "jsonwebtoken": "^9.0.2",
+    "pnpm": "^8.15.5",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -79,6 +80,7 @@
     "jest": "^29.7.0",
     "lint-staged": "^15.2.2",
     "prettier": "3.2.5",
+    "rimraf": "^5.0.5",
     "rollup": "^4.12.0",
     "standard-version": "^9.5.0",
     "ts-jest": "^29.1.2",
