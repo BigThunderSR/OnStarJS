@@ -20,8 +20,8 @@ devDependencies:
     specifier: ^6.1.0
     version: 6.1.0(rollup@4.22.5)
   '@rollup/plugin-typescript':
-    specifier: ^11.1.6
-    version: 11.1.6(rollup@4.22.5)(tslib@2.7.0)(typescript@5.4.5)
+    specifier: ^12.1.0
+    version: 12.1.0(rollup@4.22.5)(tslib@2.7.0)(typescript@5.4.5)
   '@types/jest':
     specifier: ^29.5.13
     version: 29.5.13
@@ -691,8 +691,8 @@ packages:
       rollup: 4.22.5
     dev: true
 
-  /@rollup/plugin-typescript@11.1.6(rollup@4.22.5)(tslib@2.7.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==}
+  /@rollup/plugin-typescript@12.1.0(rollup@4.22.5)(tslib@2.7.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-Kzs8KGJofe7cfTRODsnG1jNGxSvU8gVoNNd7Z/QaY25AYwe2LSSUpx/kPxqF38NYkpR8de3m51r9uwJpDlz6dg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.14.0||^3.0.0||^4.0.0
