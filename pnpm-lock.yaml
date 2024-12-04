@@ -40,8 +40,8 @@ importers:
         specifier: ^6.1.0
         version: 6.1.0(rollup@4.28.0)
       '@rollup/plugin-typescript':
-        specifier: ^11.1.6
-        version: 11.1.6(rollup@4.28.0)(tslib@2.8.1)(typescript@5.7.2)
+        specifier: ^12.1.1
+        version: 12.1.1(rollup@4.28.0)(tslib@2.8.1)(typescript@5.7.2)
       '@types/jest':
         specifier: ^29.5.14
         version: 29.5.14
@@ -59,7 +59,7 @@ importers:
         version: 9.1.7
       jest:
         specifier: ^29.7.0
-        version: 29.7.0
+        version: 29.7.0(@types/node@22.10.1)
       lint-staged:
         specifier: ^15.2.10
         version: 15.2.10
@@ -74,7 +74,7 @@ importers:
         version: 9.5.0
       ts-jest:
         specifier: ^29.2.5
-        version: 29.2.5(@babel/core@7.26.0)(jest@29.7.0)(typescript@5.7.2)
+        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.1))(typescript@5.7.2)
       ts-mockito:
         specifier: ^2.6.1
         version: 2.6.1
@@ -375,8 +375,8 @@ packages:
       rollup:
         optional: true
 
-  '@rollup/plugin-typescript@11.1.6':
-    resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==}
+  '@rollup/plugin-typescript@12.1.1':
+    resolution: {integrity: sha512-t7O653DpfB5MbFrqPe/VcKFFkvRuFNp9qId3xq4Eth5xlyymzxNpye2z8Hrl0RIMuXTSr5GGcFpkdlMeacUiFQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^2.14.0||^3.0.0||^4.0.0
@@ -2623,11 +2623,13 @@ snapshots:
       is-reference: 1.2.1
       magic-string: 0.30.14
       picomatch: 4.0.2
+    optionalDependencies:
       rollup: 4.28.0
 
   '@rollup/plugin-json@6.1.0(rollup@4.28.0)':
     dependencies:
       '@rollup/pluginutils': 5.1.3(rollup@4.28.0)
+    optionalDependencies:
       rollup: 4.28.0
 
   '@rollup/plugin-node-resolve@15.3.0(rollup@4.28.0)':
@@ -2637,21 +2639,24 @@ snapshots:
       deepmerge: 4.3.1
       is-module: 1.0.0
       resolve: 1.22.8
+    optionalDependencies:
       rollup: 4.28.0
 
-  '@rollup/plugin-typescript@11.1.6(rollup@4.28.0)(tslib@2.8.1)(typescript@5.7.2)':
+  '@rollup/plugin-typescript@12.1.1(rollup@4.28.0)(tslib@2.8.1)(typescript@5.7.2)':
     dependencies:
       '@rollup/pluginutils': 5.1.3(rollup@4.28.0)
       resolve: 1.22.8
+      typescript: 5.7.2
+    optionalDependencies:
       rollup: 4.28.0
       tslib: 2.8.1
-      typescript: 5.7.2
 
   '@rollup/pluginutils@5.1.3(rollup@4.28.0)':
     dependencies:
       '@types/estree': 1.0.6
       estree-walker: 2.0.2
       picomatch: 4.0.2
+    optionalDependencies:
       rollup: 4.28.0
 
   '@rollup/rollup-android-arm-eabi@4.28.0':
@@ -3145,7 +3150,7 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  create-jest@29.7.0:
+  create-jest@29.7.0(@types/node@22.10.1):
     dependencies:
       '@jest/types': 29.6.3
       chalk: 4.1.2
@@ -3279,7 +3284,7 @@ snapshots:
       bser: 2.1.1
 
   fdir@6.4.2(picomatch@4.0.2):
-    dependencies:
+    optionalDependencies:
       picomatch: 4.0.2
 
   figures@3.2.0:
@@ -3559,13 +3564,13 @@ snapshots:
       - babel-plugin-macros
       - supports-color
 
-  jest-cli@29.7.0:
+  jest-cli@29.7.0(@types/node@22.10.1):
     dependencies:
       '@jest/core': 29.7.0
       '@jest/test-result': 29.7.0
       '@jest/types': 29.6.3
       chalk: 4.1.2
-      create-jest: 29.7.0
+      create-jest: 29.7.0(@types/node@22.10.1)
       exit: 0.1.2
       import-local: 3.2.0
       jest-config: 29.7.0(@types/node@22.10.1)
@@ -3583,7 +3588,6 @@ snapshots:
       '@babel/core': 7.26.0
       '@jest/test-sequencer': 29.7.0
       '@jest/types': 29.6.3
-      '@types/node': 22.10.1
       babel-jest: 29.7.0(@babel/core@7.26.0)
       chalk: 4.1.2
       ci-info: 3.9.0
@@ -3603,6 +3607,8 @@ snapshots:
       pretty-format: 29.7.0
       slash: 3.0.0
       strip-json-comments: 3.1.1
+    optionalDependencies:
+      '@types/node': 22.10.1
     transitivePeerDependencies:
       - babel-plugin-macros
       - supports-color
@@ -3684,7 +3690,7 @@ snapshots:
       jest-util: 29.7.0
 
   jest-pnp-resolver@1.2.3(jest-resolve@29.7.0):
-    dependencies:
+    optionalDependencies:
       jest-resolve: 29.7.0
 
   jest-regex-util@29.6.3: {}
@@ -3822,12 +3828,12 @@ snapshots:
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
-  jest@29.7.0:
+  jest@29.7.0(@types/node@22.10.1):
     dependencies:
       '@jest/core': 29.7.0
       '@jest/types': 29.6.3
       import-local: 3.2.0
-      jest-cli: 29.7.0
+      jest-cli: 29.7.0(@types/node@22.10.1)
     transitivePeerDependencies:
       - '@types/node'
       - babel-plugin-macros
@@ -4495,13 +4501,12 @@ snapshots:
 
   trim-newlines@3.0.1: {}
 
-  ts-jest@29.2.5(@babel/core@7.26.0)(jest@29.7.0)(typescript@5.7.2):
+  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@22.10.1))(typescript@5.7.2):
     dependencies:
-      '@babel/core': 7.26.0
       bs-logger: 0.2.6
       ejs: 3.1.10
       fast-json-stable-stringify: 2.1.0
-      jest: 29.7.0
+      jest: 29.7.0(@types/node@22.10.1)
       jest-util: 29.7.0
       json5: 2.2.3
       lodash.memoize: 4.1.2
@@ -4509,6 +4514,11 @@ snapshots:
       semver: 7.6.3
       typescript: 5.7.2
       yargs-parser: 21.1.1
+    optionalDependencies:
+      '@babel/core': 7.26.0
+      '@jest/transform': 29.7.0
+      '@jest/types': 29.6.3
+      babel-jest: 29.7.0(@babel/core@7.26.0)
 
   ts-mockito@2.6.1:
     dependencies:
