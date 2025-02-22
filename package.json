@@ -71,7 +71,7 @@
     "openid-client": "^5.7.1",
     "totp-generator": "^1.0.0",
     "tough-cookie": "^5.1.1",
-    "uuid": "^11.0.5"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.2",
