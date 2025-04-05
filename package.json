@@ -86,7 +86,7 @@
     "jest": "^29.7.0",
     "lint-staged": "^15.5.0",
     "prettier": "3.5.3",
-    "rollup": "^4.38.0",
+    "rollup": "^4.39.0",
     "commit-and-tag-version": "^12.5.0",
     "ts-jest": "^29.3.1",
     "ts-mockito": "^2.6.1",
