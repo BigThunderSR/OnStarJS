@@ -52,8 +52,8 @@ importers:
         specifier: ^10.0.0
         version: 10.0.0
       commit-and-tag-version:
-        specifier: ^12.5.0
-        version: 12.5.0
+        specifier: ^12.5.1
+        version: 12.5.1
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
@@ -817,8 +817,8 @@ packages:
     resolution: {integrity: sha512-/rFeCpNJQbhSZjGVwO9RFV3xPqbnERS8MmIQzCtD/zl6gpJuV/bMLuN92oG3F7d8oDEHHRrujSXNUr8fpjntKw==}
     engines: {node: '>=18'}
 
-  commit-and-tag-version@12.5.0:
-    resolution: {integrity: sha512-Ll7rkKntH20iEFOPUT4e503Jf3J0J8jSN+aSeHuvNdtv4xmv9kSLSBg2CWsMVihwF3J2WvMHBEUSCKuDNesiTA==}
+  commit-and-tag-version@12.5.1:
+    resolution: {integrity: sha512-EA+0zGai6pPfpD1/hwuRDGMLZe00V4b1PtIFtZw5ra/PCan3kxOMVTnj/VuMTNgmH6lwbptObxVDYYzWXzndsg==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -3265,7 +3265,7 @@ snapshots:
 
   commander@13.1.0: {}
 
-  commit-and-tag-version@12.5.0:
+  commit-and-tag-version@12.5.1:
     dependencies:
       chalk: 2.4.2
       conventional-changelog: 4.0.0
