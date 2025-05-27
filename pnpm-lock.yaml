@@ -64,7 +64,7 @@ importers:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@22.14.1)
       lint-staged:
-        specifier: ^15.5.1
+        specifier: ^15.5.2
         version: 15.5.2
       prettier:
         specifier: 3.5.3
