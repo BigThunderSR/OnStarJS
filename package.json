@@ -81,7 +81,7 @@
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-typescript": "^12.1.2",
     "@types/jest": "^29.5.14",
-    "@types/jsonwebtoken": "^9.0.9",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/uuid": "^10.0.0",
     "commit-and-tag-version": "^12.5.1",
     "dotenv": "^16.5.0",
