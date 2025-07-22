@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import OnStar from "../../src/index";
 
-jest.setTimeout(15000);
+//jest.setTimeout(15000); => This is not needed as we set the timeout in jest.config.js
 
 const {
   DEVICEID,
