@@ -94,7 +94,7 @@
     "dotenv": "^17.2.1",
     "husky": "9.1.7",
     "jest": "^30.0.5",
-    "lint-staged": "^16.1.5",
+    "lint-staged": "^16.1.6",
     "prettier": "3.6.2",
     "rollup": "^4.48.1",
     "ts-jest": "^29.4.1",
