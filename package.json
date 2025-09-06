@@ -90,7 +90,7 @@
     "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/uuid": "^10.0.0",
-    "commit-and-tag-version": "^12.5.2",
+    "commit-and-tag-version": "^12.6.0",
     "dotenv": "^17.2.1",
     "husky": "9.1.7",
     "jest": "^30.0.5",
