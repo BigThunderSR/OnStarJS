@@ -52,9 +52,23 @@ describe("OnStarJs", () => {
     const result = await onStar.cancelAlert();
 
     expect(result.status).toEqual("success");
-    // v3 returns an immediate request envelope for the command
-    expect(result.response?.data).toHaveProperty("status");
-    expect(result.response?.data).toHaveProperty("requestId");
+    // The API version used depends on vehicle type:
+    // - v3 API returns an immediate request envelope for EV vehicles
+    // - v1 API uses polling and returns commandResponse for ICE vehicles
+    const data = result.response?.data as any;
+    if (data?.status && data?.requestId) {
+      // v3 API response
+      expect(data).toHaveProperty("status");
+      expect(data).toHaveProperty("requestId");
+    } else if (data?.commandResponse) {
+      // v1 API response after polling
+      expect(data).toHaveProperty("commandResponse");
+    } else {
+      // Should have one of the two response structures
+      fail(
+        "Response should have either v3 structure (status, requestId) or v1 structure (commandResponse)",
+      );
+    }
   });
 
   test("Diagnostics Request Successful", async () => {
