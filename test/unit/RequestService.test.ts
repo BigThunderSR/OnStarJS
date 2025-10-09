@@ -1064,4 +1064,199 @@ describe("RequestService", () => {
     // Should only try once (no retry for POST by default)
     expect(httpClient.post).toHaveBeenCalledTimes(1);
   });
+
+  // Tests for engine type detection and API routing
+  describe("Engine Type Detection and API Routing", () => {
+    beforeEach(() => {
+      // Clear cached vehicle type before each test
+      requestService["cachedVehicleType"] = undefined;
+
+      // Clear disk cache by mocking fs methods to avoid actual file I/O
+      jest
+        .spyOn(requestService as any, "loadVehicleTypeFromDisk")
+        .mockReturnValue(undefined);
+      jest
+        .spyOn(requestService as any, "saveVehicleTypeToDisk")
+        .mockImplementation(() => {});
+    });
+
+    test("detects ICE vehicle from ENGINE_TYPE in diagnostics", async () => {
+      const diagnosticsResponse = {
+        data: {
+          diagnostics: [
+            {
+              name: "ENGINE_OIL_LIFE",
+              diagnosticElements: [
+                {
+                  name: "ENGINE_TYPE",
+                  value: "ICE",
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      httpClient.get = jest.fn().mockResolvedValue(diagnosticsResponse);
+
+      const result = await requestService["isICEVehicle"]();
+      expect(result).toBe(true);
+      expect(requestService["cachedVehicleType"]).toBe("ICE");
+    });
+
+    test("detects EV vehicle from ENGINE_TYPE in diagnostics", async () => {
+      const diagnosticsPayload = {
+        diagnostics: [
+          {
+            name: "ENGINE_OIL_LIFE",
+            diagnosticElements: [
+              {
+                name: "ENGINE_TYPE",
+                value: "BEV",
+              },
+            ],
+          },
+        ],
+      };
+
+      httpClient.get = jest
+        .fn()
+        .mockResolvedValue({ data: diagnosticsPayload });
+
+      const result = await requestService["isICEVehicle"]();
+      expect(result).toBe(false);
+      expect(requestService["cachedVehicleType"]).toBe("EV");
+    });
+
+    test("detects ICE vehicle from fuel level diagnostics", async () => {
+      const diagnosticsPayload = {
+        diagnostics: [
+          {
+            name: "FUEL LEVEL",
+            displayName: "Fuel Level",
+            diagnosticElements: [],
+          },
+        ],
+      };
+
+      httpClient.get = jest
+        .fn()
+        .mockResolvedValue({ data: diagnosticsPayload });
+
+      const result = await requestService["isICEVehicle"]();
+      expect(result).toBe(true);
+      expect(requestService["cachedVehicleType"]).toBe("ICE");
+    });
+
+    test("detects EV vehicle from battery diagnostics", async () => {
+      const diagnosticsPayload = {
+        diagnostics: [
+          {
+            name: "EV_BATTERY_LEVEL",
+            displayName: "Battery Level",
+            diagnosticElements: [],
+          },
+        ],
+      };
+
+      httpClient.get = jest
+        .fn()
+        .mockResolvedValue({ data: diagnosticsPayload });
+
+      const result = await requestService["isICEVehicle"]();
+      expect(result).toBe(false);
+      expect(requestService["cachedVehicleType"]).toBe("EV");
+    });
+
+    test("uses cached vehicle type on subsequent calls", async () => {
+      requestService["cachedVehicleType"] = "ICE";
+
+      const result = await requestService["isICEVehicle"]();
+      expect(result).toBe(true);
+      // httpClient should not be called when using cache
+      expect(httpClient.get).not.toHaveBeenCalled();
+    });
+
+    test("defaults to ICE when diagnostics fail", async () => {
+      httpClient.get = jest.fn().mockRejectedValue(new Error("API Error"));
+
+      const result = await requestService["isICEVehicle"]();
+      expect(result).toBe(true);
+      expect(requestService["cachedVehicleType"]).toBe("ICE");
+    });
+
+    test("defaults to ICE when no engine type found in diagnostics", async () => {
+      const diagnosticsResponse = {
+        data: {
+          diagnostics: [
+            {
+              name: "TIRE_PRESSURE",
+              displayName: "Tire Pressure",
+              diagnosticElements: [],
+            },
+          ],
+        },
+      };
+
+      httpClient.get = jest.fn().mockResolvedValue(diagnosticsResponse);
+
+      const result = await requestService["isICEVehicle"]();
+      expect(result).toBe(true);
+      expect(requestService["cachedVehicleType"]).toBe("ICE");
+    });
+
+    test("flashLights uses v1 API for ICE vehicle", async () => {
+      requestService["cachedVehicleType"] = "ICE";
+
+      await requestService.flashLights();
+
+      const postCall = (httpClient.post as jest.Mock).mock.calls[0];
+      const url = postCall[0];
+      expect(url).toContain("/api/v1/account/vehicles/");
+      expect(url).toContain("/commands/alert");
+    });
+
+    test("flashLights uses v3 API for EV vehicle", async () => {
+      requestService["cachedVehicleType"] = "EV";
+
+      await requestService.flashLights();
+
+      const postCall = (httpClient.post as jest.Mock).mock.calls[0];
+      const url = postCall[0];
+      expect(url).toContain("/veh/cmd/v3/alert/");
+    });
+
+    test("alert uses v1 API for ICE vehicle", async () => {
+      requestService["cachedVehicleType"] = "ICE";
+
+      await requestService.alert();
+
+      const postCall = (httpClient.post as jest.Mock).mock.calls[0];
+      const url = postCall[0];
+      expect(url).toContain("/api/v1/account/vehicles/");
+      expect(url).toContain("/commands/alert");
+    });
+
+    test("cancelAlert uses v1 API for ICE vehicle", async () => {
+      requestService["cachedVehicleType"] = "ICE";
+
+      await requestService.cancelAlert();
+
+      const postCall = (httpClient.post as jest.Mock).mock.calls[0];
+      const url = postCall[0];
+      expect(url).toContain("/api/v1/account/vehicles/");
+      expect(url).toContain("/commands/cancelAlert");
+    });
+
+    test("stopLights uses v1 API for ICE vehicle", async () => {
+      requestService["cachedVehicleType"] = "ICE";
+
+      await requestService.stopLights();
+
+      const postCall = (httpClient.post as jest.Mock).mock.calls[0];
+      const url = postCall[0];
+      expect(url).toContain("/api/v1/account/vehicles/");
+      expect(url).toContain("/commands/cancelAlert");
+    });
+  });
 });

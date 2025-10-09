@@ -25,6 +25,8 @@ import onStarAppConfig from "./onStarAppConfig.json";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { getGMAPIJWT } from "./auth/GMAuth";
+import * as fs from "fs";
+import * as path from "path";
 
 enum OnStarApiCommand {
   LockDoor = "lock",
@@ -48,6 +50,7 @@ class RequestService {
   private requestPollingTimeoutSeconds: number;
   private requestPollingIntervalSeconds: number;
   private cachedVehicleId?: string;
+  private cachedVehicleType?: string | null;
 
   constructor(
     config: OnStarConfig,
@@ -171,7 +174,13 @@ class RequestService {
   }
 
   async alert(options: AlertRequestOptions = {}): Promise<Result> {
-    const request = this.getCommandRequest(OnStarApiCommand.Alert).setBody({
+    // Route to v1 API for ICE vehicles, v3 API for EV/Hybrid
+    const isICE = await this.isICEVehicle();
+    const url = isICE
+      ? this.getV1CommandUrl("alert")
+      : this.getApiUrlForPath(`alert/${this.config.vin}`);
+
+    const request = new Request(url).setBody({
       alertRequest: {
         action: [AlertRequestAction.Honk, AlertRequestAction.Flash],
         delay: 0,
@@ -188,13 +197,25 @@ class RequestService {
   }
 
   async cancelAlert(): Promise<Result> {
-    const request = this.getCommandRequest(OnStarApiCommand.CancelAlert);
+    // Route to v1 API for ICE vehicles, v3 API for EV/Hybrid
+    const isICE = await this.isICEVehicle();
+    const url = isICE
+      ? this.getV1CommandUrl("cancelAlert")
+      : this.getApiUrlForPath(`cancelAlert/${this.config.vin}`);
+
+    const request = new Request(url);
 
     return this.sendRequest(request);
   }
 
   async flashLights(options: AlertRequestOptions = {}): Promise<Result> {
-    const request = this.getCommandRequest(OnStarApiCommand.Alert).setBody({
+    // Route to v1 API for ICE vehicles, v3 API for EV/Hybrid
+    const isICE = await this.isICEVehicle();
+    const url = isICE
+      ? this.getV1CommandUrl("alert")
+      : this.getApiUrlForPath(`alert/${this.config.vin}`);
+
+    const request = new Request(url).setBody({
       alertRequest: {
         action: [AlertRequestAction.Flash],
         delay: 0,
@@ -211,7 +232,13 @@ class RequestService {
   }
 
   async stopLights(): Promise<Result> {
-    const request = this.getCommandRequest(OnStarApiCommand.CancelAlert);
+    // Route to v1 API for ICE vehicles, v3 API for EV/Hybrid
+    const isICE = await this.isICEVehicle();
+    const url = isICE
+      ? this.getV1CommandUrl("cancelAlert")
+      : this.getApiUrlForPath(`cancelAlert/${this.config.vin}`);
+
+    const request = new Request(url);
 
     return this.sendRequest(request);
   }
@@ -428,6 +455,149 @@ class RequestService {
 
   private getCommandRequest(command: OnStarApiCommand): Request {
     return new Request(this.getCommandUrl(command));
+  }
+
+  // Legacy v1 API URL helpers for alert commands
+  private getV1CommandUrl(command: string): string {
+    return `${onStarAppConfig.serviceUrl}/api/v1/account/vehicles/${this.config.vin}/commands/${command}`;
+  }
+
+  // Determine if vehicle is ICE (Internal Combustion Engine) or EV/Hybrid
+  private async isICEVehicle(): Promise<boolean> {
+    // If we've already cached the vehicle type in memory, use it
+    if (this.cachedVehicleType !== undefined) {
+      const isICE = this.cachedVehicleType !== "EV";
+      console.log(
+        `[isICEVehicle] Using memory cached vehicle type: ${this.cachedVehicleType} -> isICE: ${isICE}`,
+      );
+      return isICE;
+    }
+
+    // Try to load from disk cache
+    const diskCachedType = this.loadVehicleTypeFromDisk();
+    if (diskCachedType) {
+      this.cachedVehicleType = diskCachedType;
+      const isICE = diskCachedType !== "EV";
+      console.log(
+        `[isICEVehicle] Using disk cached vehicle type: ${diskCachedType} -> isICE: ${isICE}`,
+      );
+      return isICE;
+    }
+
+    try {
+      // Get diagnostics data to determine engine type
+      const diagnosticsResult = await this.diagnostics();
+      const diagnostics = diagnosticsResult.response?.data;
+
+      if (diagnostics?.diagnostics) {
+        // Look for ENGINE_TYPE in nested diagnosticElements
+        for (const diagnostic of diagnostics.diagnostics) {
+          if (diagnostic.diagnosticElements) {
+            const engineTypeElement = diagnostic.diagnosticElements.find(
+              (el) => el.name === "ENGINE_TYPE",
+            );
+            if (engineTypeElement?.value) {
+              const engineType = engineTypeElement.value;
+              const isICE = engineType === "ICE";
+              this.cachedVehicleType = isICE ? "ICE" : "EV";
+              this.saveVehicleTypeToDisk(this.cachedVehicleType);
+              console.log(
+                `[isICEVehicle] Detected ENGINE_TYPE: ${engineType} -> isICE: ${isICE}`,
+              );
+              return isICE;
+            }
+          }
+        }
+
+        // Fallback: Look for fuel-related diagnostics (indicates ICE)
+        // or battery/electric-related diagnostics (indicates EV/Hybrid)
+        const hasFuelLevel = diagnostics.diagnostics.some(
+          (d) => d.name === "FUEL LEVEL" || d.displayName?.includes("Fuel"),
+        );
+        const hasEVBattery = diagnostics.diagnostics.some(
+          (d) =>
+            d.name?.includes("EV_") ||
+            d.displayName?.includes("Battery") ||
+            d.displayName?.includes("Electric") ||
+            d.name?.includes("CHARGE_LEVEL"),
+        );
+
+        if (hasEVBattery) {
+          this.cachedVehicleType = "EV";
+          this.saveVehicleTypeToDisk(this.cachedVehicleType);
+          console.log(
+            "[isICEVehicle] Detected EV/Hybrid vehicle from diagnostics -> isICE: false",
+          );
+          return false;
+        } else if (hasFuelLevel) {
+          this.cachedVehicleType = "ICE";
+          this.saveVehicleTypeToDisk(this.cachedVehicleType);
+          console.log(
+            "[isICEVehicle] Detected ICE vehicle from diagnostics (has fuel level) -> isICE: true",
+          );
+          return true;
+        }
+      }
+    } catch (error) {
+      console.warn(
+        "[isICEVehicle] Failed to determine vehicle type from diagnostics, defaulting to ICE (v1 API)",
+        error,
+      );
+    }
+
+    // Default to ICE (v1 API) if we can't determine vehicle type
+    this.cachedVehicleType = "ICE";
+    console.log(
+      "[isICEVehicle] Could not determine vehicle type, defaulting to ICE (v1 API)",
+    );
+    return true;
+  }
+
+  // Get the path for the vehicle type cache file
+  private getVehicleTypeCachePath(): string {
+    const tokenLocation = this.config.tokenLocation ?? "./";
+    return path.join(tokenLocation, `vehicle_type_${this.config.vin}.json`);
+  }
+
+  // Load vehicle type from disk cache
+  private loadVehicleTypeFromDisk(): string | null {
+    try {
+      const cachePath = this.getVehicleTypeCachePath();
+      if (fs.existsSync(cachePath)) {
+        const data = fs.readFileSync(cachePath, "utf-8");
+        const parsed = JSON.parse(data);
+        if (parsed.vehicleType && parsed.vin === this.config.vin) {
+          return parsed.vehicleType;
+        }
+      }
+    } catch (error) {
+      console.warn(
+        "[loadVehicleTypeFromDisk] Failed to load vehicle type from disk",
+        error,
+      );
+    }
+    return null;
+  }
+
+  // Save vehicle type to disk cache
+  private saveVehicleTypeToDisk(vehicleType: string): void {
+    try {
+      const cachePath = this.getVehicleTypeCachePath();
+      const data = {
+        vin: this.config.vin,
+        vehicleType: vehicleType,
+        cachedAt: new Date().toISOString(),
+      };
+      fs.writeFileSync(cachePath, JSON.stringify(data, null, 2), "utf-8");
+      console.log(
+        `[saveVehicleTypeToDisk] Saved vehicle type ${vehicleType} to ${cachePath}`,
+      );
+    } catch (error) {
+      console.warn(
+        "[saveVehicleTypeToDisk] Failed to save vehicle type to disk",
+        error,
+      );
+    }
   }
 
   // Legacy init helpers removed (readGMAccessToken, buildInitQueryParams, randomHex)

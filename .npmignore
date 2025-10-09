@@ -16,3 +16,6 @@ testCredentials.json
 **/token*test*/
 **/token*location*/
 **/*token*folder*/
+
+# Vehicle type cache files
+vehicle_type_*.json

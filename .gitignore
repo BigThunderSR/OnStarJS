@@ -20,6 +20,9 @@ testCredentials.json
 **/*token*folder*/
 new_api_reference/
 
+# Vehicle type cache files
+vehicle_type_*.json
+
 # Browser profiles and temp data
 temp-browser-profile/
 
