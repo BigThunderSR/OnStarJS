@@ -12,8 +12,8 @@ importers:
         specifier: ^1.13.1
         version: 1.13.1
       chromium-bidi:
-        specifier: ^10.6.0
-        version: 10.6.0(devtools-protocol@0.0.1487398)
+        specifier: ^10.6.1
+        version: 10.6.1(devtools-protocol@0.0.1487398)
       http-cookie-agent:
         specifier: ^7.0.2
         version: 7.0.2(tough-cookie@5.1.2)
@@ -922,8 +922,8 @@ packages:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
     engines: {node: '>=10'}
 
-  chromium-bidi@10.6.0:
-    resolution: {integrity: sha512-y6F5dZ+KnIt5Xgl2fcOovjZHcHctxZRDaKfCXdHl/4jzRXw+KzBrV/+NgYxbLE22f1F+Xkslz2p9HahcMOCRGA==}
+  chromium-bidi@10.6.1:
+    resolution: {integrity: sha512-KEuHToIZwgOJe2lwvHDHHE0gLon0YJGqze8ZAk8xo8I+5kMqdVzUg4U6ETsmBCj8qNsjOl56MW2gZaICePMh4g==}
     peerDependencies:
       devtools-protocol: '*'
 
@@ -3524,7 +3524,7 @@ snapshots:
 
   char-regex@1.0.2: {}
 
-  chromium-bidi@10.6.0(devtools-protocol@0.0.1487398):
+  chromium-bidi@10.6.1(devtools-protocol@0.0.1487398):
     dependencies:
       devtools-protocol: 0.0.1487398
       mitt: 3.0.1
