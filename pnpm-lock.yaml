@@ -24,8 +24,8 @@ importers:
         specifier: ^5.7.1
         version: 5.7.1
       patchright:
-        specifier: ^1.56.1
-        version: 1.56.1
+        specifier: ^1.57.0
+        version: 1.57.0
       totp-generator:
         specifier: ^2.0.0
         version: 2.0.0
@@ -2021,13 +2021,13 @@ packages:
   parse5@7.3.0:
     resolution: {integrity: sha512-IInvU7fabl34qmi9gY8XOVxhYyMyuH2xUNpb2q8/Y+7552KlejkRvqvD19nMoUW/uQGGbqNpA6Tufu5FL5BZgw==}
 
-  patchright-core@1.56.1:
-    resolution: {integrity: sha512-ot1WU31T+FLjBg8LUbEnPPhzh6uRYji25ZONHpxVUEXtANuVJf6tI4nv6jw6n37qsjgS4u12sq7Go0Vdte3JJQ==}
+  patchright-core@1.57.0:
+    resolution: {integrity: sha512-um/9Wue7IFAa9UDLacjNgDn62ub5GJe1b1qouvYpELIF9rsFVMNhRo/rRXYajupLwp5xKJ0sSjOV6sw8/HarBQ==}
     engines: {node: '>=18'}
     hasBin: true
 
-  patchright@1.56.1:
-    resolution: {integrity: sha512-HY4s3vJNPVoasoy0X7sOm2dufQwlicvXoCpoINYFUWYkEaSBM2l4UtSOdI4/MYQHNskfOFpIqE+Usj748qbtYg==}
+  patchright@1.57.0:
+    resolution: {integrity: sha512-pxbI/D65QiFuCY3qUXKQONRhplR3rkYFhry5ieimEbzLNxu/xfOYizQRyuMgc6F5ZoZ37QNIwZz9PWEfn6aC1Q==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -4799,11 +4799,11 @@ snapshots:
     dependencies:
       entities: 6.0.1
 
-  patchright-core@1.56.1: {}
+  patchright-core@1.57.0: {}
 
-  patchright@1.56.1:
+  patchright@1.57.0:
     dependencies:
-      patchright-core: 1.56.1
+      patchright-core: 1.57.0
     optionalDependencies:
       fsevents: 2.3.2
 
