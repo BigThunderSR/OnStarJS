@@ -13,6 +13,7 @@ import jwt from "jsonwebtoken";
 import { chromium, Browser, BrowserContext, Page } from "patchright";
 import { randomInt } from "crypto";
 import { execSync } from "child_process";
+import * as net from "net";
 
 // Define an interface for the vehicle structure and the payload containing them
 interface Vehicle {
@@ -388,8 +389,30 @@ export class GMAuth {
             console.log(
               `🖥️ Verified Xvfb process is running on display ${this.xvfbDisplay}`,
             );
-            // Xvfb library manages DISPLAY internally, no need to set it manually
-            displayWorking = true;
+            // Ensure DISPLAY is exported for child processes
+            process.env.DISPLAY = this.xvfbDisplay;
+            // Quick readiness probe: try connecting to the X11 socket
+            try {
+              await new Promise<void>((resolve, reject) => {
+                const sockPath = `/tmp/.X11-unix/X${displayNum}`;
+                const socket = net.connect({ path: sockPath }, () => {
+                  socket.end();
+                  resolve();
+                });
+                socket.on("error", reject);
+                setTimeout(() => {
+                  socket.destroy();
+                  reject(new Error("X socket probe timeout"));
+                }, 1500);
+              });
+              displayWorking = true;
+            } catch {
+              console.warn(
+                `⚠️ Xvfb socket not responding for ${this.xvfbDisplay}, will restart it`,
+              );
+              this.xvfb = null;
+              this.xvfbDisplay = null;
+            }
           } catch (e) {
             console.warn(
               `⚠️ Xvfb process not found for display ${this.xvfbDisplay}, will restart it`,
@@ -429,6 +452,13 @@ export class GMAuth {
               } catch (_e) {
                 // ignore per-display miss
               }
+              // Also remove potential stale X lock and socket files
+              try {
+                fs.rmSync(`/tmp/.X${d}-lock`, { force: true });
+              } catch {}
+              try {
+                fs.rmSync(`/tmp/.X11-unix/X${d}`, { force: true });
+              } catch {}
             }
             console.log(
               "🧹 Cleaned up any existing Xvfb processes in :99-:120 range",
@@ -487,7 +517,33 @@ export class GMAuth {
 
               this.xvfb.startSync();
               xvfbStarted = true;
-              this.xvfbDisplay = process.env.DISPLAY || null; // Store the DISPLAY value
+              // Explicitly set DISPLAY for reliability
+              this.xvfbDisplay = `:${displayNum}`;
+              process.env.DISPLAY = this.xvfbDisplay;
+              // Wait briefly for X socket to appear and accept connections
+              const sockPath = `/tmp/.X11-unix/X${displayNum}`;
+              const start = Date.now();
+              while (Date.now() - start < 5000) {
+                if (fs.existsSync(sockPath)) {
+                  try {
+                    await new Promise<void>((resolve, reject) => {
+                      const s = net.connect({ path: sockPath }, () => {
+                        s.end();
+                        resolve();
+                      });
+                      s.on("error", reject);
+                      setTimeout(() => {
+                        s.destroy();
+                        reject(new Error("X socket probe timeout"));
+                      }, 750);
+                    });
+                    break;
+                  } catch {
+                    // retry until timeout
+                  }
+                }
+                await new Promise((r) => setTimeout(r, 100));
+              }
               console.log(
                 `🖥️ Xvfb started successfully on display :${displayNum} (${process.env.DISPLAY})`,
               );
@@ -611,6 +667,17 @@ export class GMAuth {
     console.log("📁 Profile path:", profilePath);
 
     try {
+      // Ensure DISPLAY is propagated to the browser process on Linux
+      const launchEnv = { ...process.env } as Record<string, string>;
+      if (isLinux) {
+        if (this.xvfbDisplay && launchEnv.DISPLAY !== this.xvfbDisplay) {
+          launchEnv.DISPLAY = this.xvfbDisplay;
+        }
+        if (!launchEnv.DISPLAY) {
+          // As a last resort, try default :99
+          launchEnv.DISPLAY = ":99";
+        }
+      }
       this.context = await chromium.launchPersistentContext(profilePath, {
         channel: "chromium", // Use chromium
         headless: false, // Always headful for better compatibility
@@ -620,6 +687,7 @@ export class GMAuth {
         viewport: fingerprint.viewport,
         args: browserArgs,
         timeout: 90000, // Increased to 90 second timeout for browser launch
+        env: launchEnv,
         // Add extra stealth options
         locale: "en-US",
         timezoneId: "America/New_York",
@@ -1187,7 +1255,20 @@ export class GMAuth {
       } finally {
         this.xvfb = null;
         this.xvfbDisplay = null; // Clear stored display value
-        // Don't modify process.env.DISPLAY - let the system handle it
+        // Clean stale X lock/socket files if present
+        try {
+          if (currentDisplay) {
+            const dn = currentDisplay.replace(":", "");
+            try {
+              fs.rmSync(`/tmp/.X${dn}-lock`, { force: true });
+            } catch {}
+            try {
+              fs.rmSync(`/tmp/.X11-unix/X${dn}`, { force: true });
+            } catch {}
+          }
+        } catch {}
+        // Unset DISPLAY to avoid leaking a dead display value
+        delete (process.env as any).DISPLAY;
       }
     }
   }
