@@ -77,7 +77,7 @@
     "axios": "^1.13.2",
     "chromium-bidi": "^11.0.1",
     "http-cookie-agent": "^7.0.3",
-    "jsonwebtoken": "^9.0.2",
+    "jsonwebtoken": "^9.0.3",
     "openid-client": "^5.7.1",
     "patchright": "^1.57.0",
     "totp-generator": "^2.0.0",
