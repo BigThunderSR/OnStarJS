@@ -444,6 +444,16 @@ export class GMAuth {
             console.warn("⚠️ xvfb-run not found, but Xvfb binary is available");
           }
 
+          // Proactively clear any stale DISPLAY and kill/clean stale Xvfb artifacts
+          try {
+            if (process.env.DISPLAY) {
+              console.warn(
+                `⚠️ Clearing stale DISPLAY ${process.env.DISPLAY} before Xvfb start`,
+              );
+              delete (process.env as any).DISPLAY;
+            }
+          } catch {}
+
           // Kill any existing Xvfb processes that might be stuck (sweep a safe range)
           try {
             for (let d = 99; d <= 120; d++) {
@@ -494,10 +504,11 @@ export class GMAuth {
               this.xvfb = new this.XvfbCtor({
                 silent: true,
                 displayNum: displayNum,
-                // Reuse an existing Xvfb server on the same display if one is already running
-                // This prevents cascading failures when a previous run didn't exit cleanly.
-                reuse: true,
-                timeout: 10000, // Increased timeout to 10 seconds
+                // Proactively avoid reusing existing servers; we perform explicit cleanup of
+                // any stale Xvfb processes and lock/socket files before starting a fresh one.
+                // Setting reuse=false ensures we don't attach to a potentially broken instance.
+                reuse: false,
+                timeout: 20000, // increase timeout to 20 seconds
                 xvfb_args: [
                   "-screen",
                   "0",
@@ -523,7 +534,7 @@ export class GMAuth {
               // Wait briefly for X socket to appear and accept connections
               const sockPath = `/tmp/.X11-unix/X${displayNum}`;
               const start = Date.now();
-              while (Date.now() - start < 5000) {
+              while (Date.now() - start < 15000) {
                 if (fs.existsSync(sockPath)) {
                   try {
                     await new Promise<void>((resolve, reject) => {
@@ -564,6 +575,11 @@ export class GMAuth {
                 this.xvfb = null;
               }
 
+              // Backoff a bit before retrying next display to avoid tight loops
+              await new Promise((r) =>
+                setTimeout(r, 500 + Math.random() * 1000),
+              );
+
               if (attempt === maxAttempts - 1) {
                 throw displayError;
               }
@@ -576,24 +592,92 @@ export class GMAuth {
             );
           }
         } catch (error) {
-          console.error("❌ Failed to start Xvfb:", error);
-          console.error("💡 To fix this issue, either:");
-          console.error("   1. Install Xvfb: sudo apt-get install xvfb");
+          console.error("❌ Failed to start or connect to Xvfb:", error);
+
+          // Gather and print extensive diagnostics to aid debugging
+          try {
+            console.error("\n🔎 Xvfb diagnostics start");
+            const envDisplay = process.env.DISPLAY || "<unset>";
+            const envPath = process.env.PATH || "<unset>";
+            console.error("ENV DISPLAY:", envDisplay);
+            console.error("ENV PATH:", envPath);
+
+            // Binary presence and versions
+            try {
+              const whichXvfb = execSync("which Xvfb").toString().trim();
+              console.error("which Xvfb:", whichXvfb);
+              try {
+                const xvfbHelp = execSync(
+                  "Xvfb -help 2>&1 | head -n 5",
+                ).toString();
+                console.error("Xvfb -help (first lines):\n" + xvfbHelp);
+              } catch {}
+            } catch {
+              console.error("which Xvfb: not found");
+            }
+            try {
+              const whichXauth = execSync("which xauth").toString().trim();
+              console.error("which xauth:", whichXauth);
+            } catch {}
+            try {
+              const whichXhost = execSync("which xhost").toString().trim();
+              console.error("which xhost:", whichXhost);
+            } catch {}
+
+            // Running processes potentially conflicting
+            try {
+              const psXvfb = execSync(
+                "ps aux | grep Xvfb | grep -v grep | head -n 50",
+              ).toString();
+              console.error("\nps Xvfb (top 50):\n" + (psXvfb || "<none>"));
+            } catch {}
+            try {
+              const psXorg = execSync(
+                "ps aux | grep Xorg | grep -v grep | head -n 50",
+              ).toString();
+              console.error("\nps Xorg (top 50):\n" + (psXorg || "<none>"));
+            } catch {}
+
+            // Locks and sockets
+            try {
+              const lsLocks = execSync(
+                "ls -la /tmp/.X*-lock 2>&1 | head -n 100",
+              ).toString();
+              console.error("\n/tmp/.X*-lock:\n" + (lsLocks || "<none>"));
+            } catch {}
+            try {
+              const lsSockets = execSync(
+                "ls -la /tmp/.X11-unix 2>&1 | head -n 100",
+              ).toString();
+              console.error("\n/tmp/.X11-unix:\n" + (lsSockets || "<none>"));
+            } catch {}
+
+            // Network/socket probe for the configured display if present
+            if (this.xvfbDisplay) {
+              try {
+                const dn = this.xvfbDisplay.replace(":", "");
+                const stat = fs.existsSync(`/tmp/.X11-unix/X${dn}`)
+                  ? fs.statSync(`/tmp/.X11-unix/X${dn}`)
+                  : null;
+                console.error(
+                  `\nSocket /tmp/.X11-unix/X${dn}:`,
+                  stat
+                    ? { size: stat.size, mode: stat.mode, mtime: stat.mtime }
+                    : "<missing>",
+                );
+              } catch {}
+            }
+
+            console.error("🔎 Xvfb diagnostics end\n");
+          } catch (diagErr) {
+            console.error("⚠️ Failed to collect full diagnostics:", diagErr);
+          }
+
+          // Exit the process since we cannot continue without a display
           console.error(
-            "   2. Run with xvfb-run: xvfb-run -a node your-app.js",
+            "❌ Cannot proceed without a working X display, exiting",
           );
-          console.error(
-            "   3. Set a DISPLAY environment variable if you have a GUI",
-          );
-          console.error(
-            "   4. Try running in a container with proper display setup",
-          );
-          console.error(
-            "   5. Ensure no other Xvfb processes are running: pkill Xvfb",
-          );
-          throw new Error(
-            "Cannot run browser automation on Linux without a display server. Xvfb is required for headful operation - headless mode is not supported.",
-          );
+          process.exit(1);
         }
       }
     }
@@ -670,11 +754,10 @@ export class GMAuth {
       // Ensure DISPLAY is propagated to the browser process on Linux
       const launchEnv = { ...process.env } as Record<string, string>;
       if (isLinux) {
-        if (this.xvfbDisplay && launchEnv.DISPLAY !== this.xvfbDisplay) {
+        // Prefer verified Xvfb display; otherwise use default :99 (may be provided by xvfb-run)
+        if (this.xvfbDisplay) {
           launchEnv.DISPLAY = this.xvfbDisplay;
-        }
-        if (!launchEnv.DISPLAY) {
-          // As a last resort, try default :99
+        } else if (!launchEnv.DISPLAY) {
           launchEnv.DISPLAY = ":99";
         }
       }

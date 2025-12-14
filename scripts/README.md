@@ -29,6 +29,7 @@ Notes
 - Builds the library before running to ensure `dist/` is up to date.
 - Shows full result payloads to help with debugging.
 - Includes a toggle to flip `checkRequestStatus` at runtime.
+- Includes `simulateReauth` command that deletes tokens, authenticates twice, and prints Xvfb diagnostics.
 
 ### `setup-env.js`
 
