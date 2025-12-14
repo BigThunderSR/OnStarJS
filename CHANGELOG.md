@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.15.0](https://github.com/BigThunderSR/OnStarJS/compare/v2.14.3...v2.15.0) (2025-12-14)
+
+
+### Features
+
+* add simulateReauth function for Xvfb diagnostics ([37f0a0c](https://github.com/BigThunderSR/OnStarJS/commit/37f0a0c7c3372d1bc7527caf62b620f55d91ffe2))
+* enhance simulateReauth function with token deletion and Xvfb diagnostics ([6271eb1](https://github.com/BigThunderSR/OnStarJS/commit/6271eb1110d4e2298dd71e251f4e257e1a8332b3))
+
+
+### Bug Fixes
+
+* **deps:** bump chromium-bidi from 11.0.1 to 12.0.0 ([711a7e4](https://github.com/BigThunderSR/OnStarJS/commit/711a7e4fa5f88c5c15bf4a7a049a4cd3ab90fd30))
+* enhance Xvfb handling with proactive cleanup and detailed diagnostics ([2623eb6](https://github.com/BigThunderSR/OnStarJS/commit/2623eb666678c99a108e8e9f07d13e5ddf17e33c))
+* require not defined ([e817f91](https://github.com/BigThunderSR/OnStarJS/commit/e817f91ab5d7aded9a93b79d20d9798db6b2cd6a))
+
 ## [2.14.3](https://github.com/BigThunderSR/OnStarJS/compare/v2.14.2...v2.14.3) (2025-12-06)
 
 
