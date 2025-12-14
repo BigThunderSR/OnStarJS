@@ -16,7 +16,7 @@ importers:
         version: 12.0.0(devtools-protocol@0.0.1538951)
       http-cookie-agent:
         specifier: ^7.0.3
-        version: 7.0.3(tough-cookie@5.1.2)
+        version: 7.0.3(tough-cookie@6.0.0)
       jsonwebtoken:
         specifier: ^9.0.3
         version: 9.0.3
@@ -30,8 +30,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       tough-cookie:
-        specifier: ^5.1.2
-        version: 5.1.2
+        specifier: ^6.0.0
+        version: 6.0.0
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -2277,11 +2277,11 @@ packages:
   through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
 
-  tldts-core@6.1.86:
-    resolution: {integrity: sha512-Je6p7pkk+KMzMv2XXKmAE3McmolOQFdxkKw0R8EYNr7sELW46JqnNeTX8ybPiQgvg1ymCoF8LXs5fzFaZvJPTA==}
+  tldts-core@7.0.19:
+    resolution: {integrity: sha512-lJX2dEWx0SGH4O6p+7FPwYmJ/bu1JbcGJ8RLaG9b7liIgZ85itUVEPbMtWRVrde/0fnDPEPHW10ZsKW3kVsE9A==}
 
-  tldts@6.1.86:
-    resolution: {integrity: sha512-WMi/OQ2axVTf/ykqCQgXiIct+mSQDFdH2fkwhPwgEwvJ1kSzZRiinb0zF2Xb8u4+OqPChmyI6MEu4EezNJz+FQ==}
+  tldts@7.0.19:
+    resolution: {integrity: sha512-8PWx8tvC4jDB39BQw1m4x8y5MH1BcQ5xHeL2n7UVFulMPH/3Q0uiamahFJ3lXA0zO2SUyRXuVVbWSDmstlt9YA==}
     hasBin: true
 
   tmpl@1.0.5:
@@ -2294,8 +2294,8 @@ packages:
   totp-generator@2.0.0:
     resolution: {integrity: sha512-YXqrJupB/w762T4PrI9qLg5ekb0Of1MRerIW5wh3GRRkH/mgSROw5Gale0gidtc4CfTsNNyZFStS7H4uXJgL2Q==}
 
-  tough-cookie@5.1.2:
-    resolution: {integrity: sha512-FVDYdxtnj0G6Qm/DhNPSb8Ju59ULcup3tuJxkFb5K8Bv2pUXILbf0xZWU8PX8Ov19OXljbUyveOFwRMwkXzO+A==}
+  tough-cookie@6.0.0:
+    resolution: {integrity: sha512-kXuRi1mtaKMrsLUxz3sQYvVl37B0Ns6MzfrtV5DvJceE9bPyspOqk9xxv7XbZWcfLWbFmm997vl83qUWVJA64w==}
     engines: {node: '>=16'}
 
   trim-newlines@3.0.1:
@@ -3828,10 +3828,10 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
-  http-cookie-agent@7.0.3(tough-cookie@5.1.2):
+  http-cookie-agent@7.0.3(tough-cookie@6.0.0):
     dependencies:
       agent-base: 7.1.4
-      tough-cookie: 5.1.2
+      tough-cookie: 6.0.0
 
   human-signals@2.1.0: {}
 
@@ -4888,11 +4888,11 @@ snapshots:
 
   through@2.3.8: {}
 
-  tldts-core@6.1.86: {}
+  tldts-core@7.0.19: {}
 
-  tldts@6.1.86:
+  tldts@7.0.19:
     dependencies:
-      tldts-core: 6.1.86
+      tldts-core: 7.0.19
 
   tmpl@1.0.5: {}
 
@@ -4904,9 +4904,9 @@ snapshots:
     dependencies:
       jssha: 3.3.1
 
-  tough-cookie@5.1.2:
+  tough-cookie@6.0.0:
     dependencies:
-      tldts: 6.1.86
+      tldts: 7.0.19
 
   trim-newlines@3.0.1: {}
 

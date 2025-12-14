@@ -81,7 +81,7 @@
     "openid-client": "^5.7.1",
     "patchright": "^1.57.0",
     "totp-generator": "^2.0.0",
-    "tough-cookie": "^5.1.2",
+    "tough-cookie": "^6.0.0",
     "uuid": "^11.1.0",
     "xvfb": "^0.4.0"
   },
