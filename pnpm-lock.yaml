@@ -27,8 +27,8 @@ importers:
         specifier: ^1.57.0
         version: 1.57.0
       totp-generator:
-        specifier: ^2.0.0
-        version: 2.0.0
+        specifier: ^2.0.1
+        version: 2.0.1
       tough-cookie:
         specifier: ^5.1.2
         version: 5.1.2
@@ -2291,8 +2291,8 @@ packages:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
 
-  totp-generator@2.0.0:
-    resolution: {integrity: sha512-YXqrJupB/w762T4PrI9qLg5ekb0Of1MRerIW5wh3GRRkH/mgSROw5Gale0gidtc4CfTsNNyZFStS7H4uXJgL2Q==}
+  totp-generator@2.0.1:
+    resolution: {integrity: sha512-50DiKmv9zKTPzCgWOqQYVBMvxh+tpL9O3IUFIqzGUlFXzJyb/IQZac8bonXudvLbfuDY8laZ9qTDX+yAvTBNSQ==}
 
   tough-cookie@5.1.2:
     resolution: {integrity: sha512-FVDYdxtnj0G6Qm/DhNPSb8Ju59ULcup3tuJxkFb5K8Bv2pUXILbf0xZWU8PX8Ov19OXljbUyveOFwRMwkXzO+A==}
@@ -4900,7 +4900,7 @@ snapshots:
     dependencies:
       is-number: 7.0.0
 
-  totp-generator@2.0.0:
+  totp-generator@2.0.1:
     dependencies:
       jssha: 3.3.1
 
