@@ -2548,7 +2548,13 @@ export class GMAuth {
       postSubmitTitle = await page.title();
 
       // Check if we're still on the sign-in page (credential submission failed)
-      if (postSubmitTitle.toLowerCase().includes("sign in")) {
+      // BUT FIRST: Check if we already captured the auth code via CDP - if so, auth succeeded!
+      if (this.capturedAuthCode) {
+        console.log(
+          `✅ Auth code already captured via CDP, authentication succeeded despite page title showing "${postSubmitTitle}"`,
+        );
+        // Skip the retry logic - we already have what we need
+      } else if (postSubmitTitle.toLowerCase().includes("sign in")) {
         console.log(
           `⚠️ Still on sign-in page after credential submission: "${postSubmitTitle}". This suggests credentials weren't accepted properly.`,
         );
