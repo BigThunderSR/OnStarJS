@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.15.1](https://github.com/BigThunderSR/OnStarJS/compare/v2.15.0...v2.15.1) (2026-01-23)
+
+
+### Bug Fixes
+
+* **deps:** bump chromium-bidi from 12.0.0 to 12.0.1 ([5bb656a](https://github.com/BigThunderSR/OnStarJS/commit/5bb656a44694e90706c79ef80d66b37a5dc54cd4))
+* **deps:** bump chromium-bidi from 12.0.1 to 13.0.1 ([19c1740](https://github.com/BigThunderSR/OnStarJS/commit/19c17407a9cfdb84af602cb52187187cbb32f538))
+* **deps:** bump totp-generator from 2.0.0 to 2.0.1 ([47951ec](https://github.com/BigThunderSR/OnStarJS/commit/47951ecc7a9fc6c4500dda6ef61a14c0dcd22be8))
+* prevent unnecessary retry when auth code already captured via CDP ([4f43f1c](https://github.com/BigThunderSR/OnStarJS/commit/4f43f1cdbcbe36cd173f37f825e0b5316d442742))
+
 ## [2.15.0](https://github.com/BigThunderSR/OnStarJS/compare/v2.14.3...v2.15.0) (2025-12-14)
 
 
