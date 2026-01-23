@@ -82,7 +82,7 @@
     "patchright": "^1.57.0",
     "totp-generator": "^2.0.1",
     "tough-cookie": "^5.1.2",
-    "uuid": "^11.1.0",
+    "uuid": "^13.0.0",
     "xvfb": "^0.4.0"
   },
   "devDependencies": {
