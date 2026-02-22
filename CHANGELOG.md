@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.15.2](https://github.com/BigThunderSR/OnStarJS/compare/v2.15.1...v2.15.2) (2026-02-22)
+
+
+### Bug Fixes
+
+* **deps:** bump axios from 1.13.2 to 1.13.3 ([80bc1c6](https://github.com/BigThunderSR/OnStarJS/commit/80bc1c61f12f30345c4140efe21257ffc25f19ff))
+* **deps:** bump axios from 1.13.3 to 1.13.5 ([f0c12b1](https://github.com/BigThunderSR/OnStarJS/commit/f0c12b1279400525947006080cd873dbc0da6538))
+* **deps:** bump chromium-bidi from 13.0.1 to 13.1.1 ([f37a1c2](https://github.com/BigThunderSR/OnStarJS/commit/f37a1c2822c4bdcb8ead6755217dae68c09b95ab))
+
 ## [2.15.1](https://github.com/BigThunderSR/OnStarJS/compare/v2.15.0...v2.15.1) (2026-01-23)
 
 
