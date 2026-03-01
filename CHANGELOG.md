@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.16.0](https://github.com/BigThunderSR/OnStarJS/compare/v2.15.2...v2.16.0) (2026-03-01)
+
+
+### Features
+
+* add getWarrantyInfo and getSxmSubscriptionInfo commands ([b4d4426](https://github.com/BigThunderSR/OnStarJS/commit/b4d4426654546ce637747c425457beb8e7768500))
+
+
+### Bug Fixes
+
+* **deps:** bump axios from 1.13.5 to 1.13.6 ([0eb22d2](https://github.com/BigThunderSR/OnStarJS/commit/0eb22d23ad02a27b1ea0c29e505344d60c542df8))
+
 ## [2.15.2](https://github.com/BigThunderSR/OnStarJS/compare/v2.15.1...v2.15.2) (2026-02-22)
 
 
