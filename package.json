@@ -78,7 +78,7 @@
     "chromium-bidi": "^15.0.0",
     "http-cookie-agent": "^7.0.3",
     "jsonwebtoken": "^9.0.3",
-    "openid-client": "^5.7.1",
+    "openid-client": "^6.8.2",
     "patchright": "^1.57.0",
     "totp-generator": "^2.0.1",
     "tough-cookie": "^5.1.2",
