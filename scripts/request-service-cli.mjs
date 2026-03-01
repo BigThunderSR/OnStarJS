@@ -106,6 +106,24 @@ async function main() {
       },
     },
     {
+      key: "getWarrantyInfo",
+      label: "getWarrantyInfo(vin?)",
+      run: async () => {
+        const ans = (await rl.question("VIN (blank to use env VIN): ")).trim();
+        const vin = ans ? ans.toUpperCase() : undefined;
+        return client.getWarrantyInfo(vin);
+      },
+    },
+    {
+      key: "getSxmSubscriptionInfo",
+      label: "getSxmSubscriptionInfo(vin?)",
+      run: async () => {
+        const ans = (await rl.question("VIN (blank to use env VIN): ")).trim();
+        const vin = ans ? ans.toUpperCase() : undefined;
+        return client.getSxmSubscriptionInfo(vin);
+      },
+    },
+    {
       key: "diagnostics",
       label: "diagnostics()",
       run: () => client.diagnostics(),

@@ -624,9 +624,12 @@ class RequestService {
       "query getPlanInfo {" +
       `vehicleDetails(vin: "${qVin}") {` +
       "model make year " +
+      "onstarInfo { onStarStatus ownerAccount isShared associatedDate } " +
+      "offers { productCode offerName associatedOfferingCode retailPrice billingCadence productRank discounts { name discountCategory price duration { uom value } } } " +
+      "activePlans { offeringId isTrial orderNumber productId billingCadence startDate endDate } " +
+      "orders { offeringId trial status salesOrderType salesProducts { salesProductType orderNumber salesProductId billingCadence startDate endDate } } " +
       "planExpiryInfo { productCode planName startDate endDate expiryDate orderDate isTrial type billingCadence cancelDate status features { featureCode featureName priorityNumber featureCategoryCode } additionalInfo { radioId } } " +
       "planInfo { productCode billingCadence status startDate endDate expiryDate cancelDate orderDate pricePlan productType isTrial orderItemTags offers { offerName associatedOfferingCode retailPrice billingCadence productRank discounts { name discountCategory price duration { uom value } } } } " +
-      "offers { productCode offerName associatedOfferingCode retailPrice billingCadence productRank discounts { name discountCategory price duration { uom value } } } " +
       "}" +
       "}";
 
@@ -646,10 +649,22 @@ class RequestService {
       throw new Error("getOnstarPlan request did not succeed");
     }
     if (payload && Array.isArray(payload.errors) && payload.errors.length) {
-      console.error("getOnstarPlan GraphQL errors", {
-        errors: payload.errors,
-      });
-      throw new Error("getOnstarPlan GraphQL errors present");
+      // If we have partial data alongside errors, log a warning and return
+      // the partial response instead of throwing. This handles cases where
+      // some GraphQL fields fail (e.g. offers) but plan data is still available.
+      if (payload.data?.vehicleDetails) {
+        console.warn(
+          "getOnstarPlan GraphQL partial errors (returning available data)",
+          {
+            errors: payload.errors,
+          },
+        );
+      } else {
+        console.error("getOnstarPlan GraphQL errors", {
+          errors: payload.errors,
+        });
+        throw new Error("getOnstarPlan GraphQL errors present");
+      }
     }
     return payload as import("./types").OnstarPlanResponse;
   }
@@ -688,6 +703,78 @@ class RequestService {
       throw new Error("getVehicleRecallInfo GraphQL errors present");
     }
     return payload as import("./types").VehicleRecallInfoResponse;
+  }
+
+  async getWarrantyInfo(
+    vin?: string,
+  ): Promise<import("./types").WarrantyInfoResponse> {
+    const url = `${onStarAppConfig.serviceUrl}/mbff/garage/v1`;
+    const qVin = (vin || this.config.vin).toUpperCase();
+    const graphQL =
+      "query getWarrantyInfo {" +
+      `vehicleDetails(vin: "${qVin}") {` +
+      "warrantyInfo { startMileage endMileage startDate expirationDate typeDescription status mileageUnit notes } " +
+      "}" +
+      "}";
+
+    const request = new Request(url)
+      .setMethod(RequestMethod.Post)
+      .setContentType("text/plain; charset=utf-8")
+      .setBody(graphQL)
+      .setCheckRequestStatus(false);
+
+    const result = await this.sendRequest(request);
+    const payload: any = result.response?.data;
+    if (result.status !== CommandResponseStatus.success) {
+      console.error("getWarrantyInfo failed", {
+        status: result.status,
+        data: payload,
+      });
+      throw new Error("getWarrantyInfo request did not succeed");
+    }
+    if (payload && Array.isArray(payload.errors) && payload.errors.length) {
+      console.error("getWarrantyInfo GraphQL errors", {
+        errors: payload.errors,
+      });
+      throw new Error("getWarrantyInfo GraphQL errors present");
+    }
+    return payload as import("./types").WarrantyInfoResponse;
+  }
+
+  async getSxmSubscriptionInfo(
+    vin?: string,
+  ): Promise<import("./types").SxmSubscriptionInfoResponse> {
+    const url = `${onStarAppConfig.serviceUrl}/mbff/garage/v1`;
+    const qVin = (vin || this.config.vin).toUpperCase();
+    const graphQL =
+      "query getSxmSubscriptionInfo {" +
+      `vehicleDetails(vin: "${qVin}") {` +
+      "sxmSubscriptionInfo { deviceId subscriptions { subscriptionName packageId marketType startDate endDate services } channelAccountInfo { message radioId marketType packageName expiryDate phoneNumber } is360Device audioDeactDate audioDeactType suspended status } " +
+      "}" +
+      "}";
+
+    const request = new Request(url)
+      .setMethod(RequestMethod.Post)
+      .setContentType("text/plain; charset=utf-8")
+      .setBody(graphQL)
+      .setCheckRequestStatus(false);
+
+    const result = await this.sendRequest(request);
+    const payload: any = result.response?.data;
+    if (result.status !== CommandResponseStatus.success) {
+      console.error("getSxmSubscriptionInfo failed", {
+        status: result.status,
+        data: payload,
+      });
+      throw new Error("getSxmSubscriptionInfo request did not succeed");
+    }
+    if (payload && Array.isArray(payload.errors) && payload.errors.length) {
+      console.error("getSxmSubscriptionInfo GraphQL errors", {
+        errors: payload.errors,
+      });
+      throw new Error("getSxmSubscriptionInfo GraphQL errors present");
+    }
+    return payload as import("./types").SxmSubscriptionInfoResponse;
   }
 
   async location(): Promise<Result> {

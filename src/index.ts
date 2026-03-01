@@ -40,6 +40,14 @@ class OnStar {
     return this.requestService.getVehicleRecallInfo(vin);
   }
 
+  async getWarrantyInfo(vin?: string) {
+    return this.requestService.getWarrantyInfo(vin);
+  }
+
+  async getSxmSubscriptionInfo(vin?: string) {
+    return this.requestService.getSxmSubscriptionInfo(vin);
+  }
+
   async start(options?: StartRequestOptions): Promise<Result> {
     return this.requestService.start(options);
   }

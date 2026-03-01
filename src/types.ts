@@ -200,7 +200,33 @@ export interface VehicleDetailsResponse {
 export interface OnstarPlanResponse {
   errors?: any[];
   data: {
-    vehicleDetails: any; // includes model/make/year and planExpiryInfo, planInfo, offers
+    vehicleDetails: any; // includes model/make/year, onstarInfo, offers, activePlans, orders, planExpiryInfo, and planInfo
+  };
+  extensions?: any;
+  dataPresent?: boolean;
+}
+
+// v3 Garage GraphQL warranty info response
+export interface WarrantyInfoResponse {
+  errors?: any[];
+  data: {
+    vehicleDetails: {
+      warrantyInfo: any[] | null;
+      [k: string]: any;
+    } | null;
+  };
+  extensions?: any;
+  dataPresent?: boolean;
+}
+
+// v3 Garage GraphQL SXM subscription info response
+export interface SxmSubscriptionInfoResponse {
+  errors?: any[];
+  data: {
+    vehicleDetails: {
+      sxmSubscriptionInfo: any | null;
+      [k: string]: any;
+    } | null;
   };
   extensions?: any;
   dataPresent?: boolean;
