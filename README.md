@@ -147,7 +147,15 @@ onStar.getVehicleDetails([vin]);
 <details id="get-onstar-plan">
 <summary>Get OnStar Plan</summary>
 
-Returns OnStar subscription plan information including active plans, features, billing details, pricing, and available offers.
+Returns OnStar subscription plan information including offers, active plans, orders, plan expiry info, and OnStar account status (status, owner account, shared flag).
+
+**Note:** Plan detail fields (`planInfo`, `planExpiryInfo`, `activePlans`, `orders`, `offers`) are only populated for primary account holders. Shared accounts will receive `onstarInfo` with the active status but plan details will be empty or trigger partial errors that are handled gracefully.
+
+> **⚠️ Changes in v2.16.0:**
+>
+> - **Fixed `offers` field names** — The `offers` sub-fields have been corrected to match the current API schema (`productCode`, `offerName`, `associatedOfferingCode`, `retailPrice`, `billingCadence`, `productRank`). The previous sub-fields (`offerId`, `expirationDate`, `category`) no longer exist in the API.
+> - **Partial error tolerance** — Previously, any GraphQL error in the response caused the method to throw. Now, if `vehicleDetails` data is present alongside errors (e.g. shared accounts where offers fail), the method returns the partial data with a warning instead of throwing.
+> - **New fields added** — `onstarInfo`, `activePlans`, and `orders` are now included in the response. These are additive and non-breaking.
 
 ```javascript
 onStar.getOnstarPlan([vin]);
@@ -166,6 +174,36 @@ Returns vehicle recall information including recall status, repair status, descr
 
 ```javascript
 onStar.getVehicleRecallInfo([vin]);
+```
+
+| Option | Default        | Valid Values  |
+| ------ | -------------- | ------------- |
+| vin    | Configured VIN | Any valid VIN |
+
+</details>
+
+<details id="get-warranty-info">
+<summary>Get Warranty Info</summary>
+
+Returns vehicle warranty information including warranty types (powertrain, bumper-to-bumper, corrosion, emissions, etc.), coverage dates, mileage limits, and current status.
+
+```javascript
+onStar.getWarrantyInfo([vin]);
+```
+
+| Option | Default        | Valid Values  |
+| ------ | -------------- | ------------- |
+| vin    | Configured VIN | Any valid VIN |
+
+</details>
+
+<details id="get-sxm-subscription-info">
+<summary>Get SXM Subscription Info</summary>
+
+Returns SiriusXM satellite radio subscription information including device ID, subscription status, channel account details, and deactivation info.
+
+```javascript
+onStar.getSxmSubscriptionInfo([vin]);
 ```
 
 | Option | Default        | Valid Values  |

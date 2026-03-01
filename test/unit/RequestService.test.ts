@@ -227,7 +227,6 @@ describe("RequestService", () => {
             make: "Chevrolet",
             year: "2024",
             planInfo: [],
-            offers: [],
           },
         },
         extensions: null,
@@ -242,7 +241,26 @@ describe("RequestService", () => {
     );
   });
 
-  test("getOnstarPlan with errors in response", async () => {
+  test("getOnstarPlan with partial GraphQL errors returns data", async () => {
+    httpClient.post = jest.fn().mockResolvedValue({
+      data: {
+        errors: [{ message: "GraphQL error on offers" }],
+        data: {
+          vehicleDetails: {
+            model: "Blazer EV",
+            make: "Chevrolet",
+            year: "2024",
+            planInfo: [],
+          },
+        },
+      },
+    });
+
+    const data = await requestService.setClient(httpClient).getOnstarPlan();
+    expect(data).toHaveProperty("data.vehicleDetails");
+  });
+
+  test("getOnstarPlan with errors and no vehicleDetails throws", async () => {
     httpClient.post = jest.fn().mockResolvedValue({
       data: {
         errors: [{ message: "GraphQL error" }],
@@ -321,6 +339,131 @@ describe("RequestService", () => {
     await expect(
       requestService.setClient(httpClient).getVehicleRecallInfo(),
     ).rejects.toThrow("getVehicleRecallInfo request did not succeed");
+
+    requestService["sendRequest"] = originalSendRequest;
+  });
+
+  test("getWarrantyInfo success", async () => {
+    httpClient.post = jest.fn().mockResolvedValue({
+      data: {
+        errors: [],
+        data: {
+          vehicleDetails: {
+            warrantyInfo: [
+              {
+                startMileage: 0,
+                endMileage: 60000,
+                startDate: "2023-01-01",
+                expirationDate: "2028-01-01",
+                typeDescription: "Powertrain Limited Warranty",
+                status: "APPLICABLE",
+                mileageUnit: "M",
+                notes: "00000000000000000000",
+              },
+            ],
+          },
+        },
+        extensions: null,
+        dataPresent: true,
+      },
+    });
+
+    const data = await requestService.setClient(httpClient).getWarrantyInfo();
+    expect(data).toHaveProperty("data.vehicleDetails.warrantyInfo");
+    expect(Array.isArray((data as any).data.vehicleDetails.warrantyInfo)).toBe(
+      true,
+    );
+  });
+
+  test("getWarrantyInfo with errors in response", async () => {
+    httpClient.post = jest.fn().mockResolvedValue({
+      data: {
+        errors: [{ message: "GraphQL error" }],
+        data: { vehicleDetails: null },
+      },
+    });
+
+    await expect(
+      requestService.setClient(httpClient).getWarrantyInfo(),
+    ).rejects.toThrow("getWarrantyInfo GraphQL errors present");
+  });
+
+  test("getWarrantyInfo with non-success status", async () => {
+    const originalSendRequest = requestService["sendRequest"];
+    requestService["sendRequest"] = jest.fn().mockResolvedValue({
+      status: CommandResponseStatus.failure,
+      response: { data: {} },
+    });
+
+    await expect(
+      requestService.setClient(httpClient).getWarrantyInfo(),
+    ).rejects.toThrow("getWarrantyInfo request did not succeed");
+
+    requestService["sendRequest"] = originalSendRequest;
+  });
+
+  test("getSxmSubscriptionInfo success", async () => {
+    httpClient.post = jest.fn().mockResolvedValue({
+      data: {
+        errors: [],
+        data: {
+          vehicleDetails: {
+            sxmSubscriptionInfo: {
+              deviceId: "TESTDEV01",
+              subscriptions: null,
+              channelAccountInfo: {
+                message: null,
+                radioId: "TESTDEV01",
+                marketType: null,
+                packageName: null,
+                expiryDate: null,
+                phoneNumber: null,
+              },
+              is360Device: true,
+              audioDeactDate: "2025-01-15T00:00:00Z",
+              audioDeactType: "PRE-PAID_EXPIRED",
+              suspended: null,
+              status: "INACTIVE",
+            },
+          },
+        },
+        extensions: null,
+        dataPresent: true,
+      },
+    });
+
+    const data = await requestService
+      .setClient(httpClient)
+      .getSxmSubscriptionInfo();
+    expect(data).toHaveProperty("data.vehicleDetails.sxmSubscriptionInfo");
+    expect((data as any).data.vehicleDetails.sxmSubscriptionInfo.deviceId).toBe(
+      "TESTDEV01",
+    );
+  });
+
+  test("getSxmSubscriptionInfo with errors in response", async () => {
+    httpClient.post = jest.fn().mockResolvedValue({
+      data: {
+        errors: [{ message: "GraphQL error" }],
+        data: { vehicleDetails: null },
+      },
+    });
+
+    await expect(
+      requestService.setClient(httpClient).getSxmSubscriptionInfo(),
+    ).rejects.toThrow("getSxmSubscriptionInfo GraphQL errors present");
+  });
+
+  test("getSxmSubscriptionInfo with non-success status", async () => {
+    const originalSendRequest = requestService["sendRequest"];
+    requestService["sendRequest"] = jest.fn().mockResolvedValue({
+      status: CommandResponseStatus.failure,
+      response: { data: {} },
+    });
+
+    await expect(
+      requestService.setClient(httpClient).getSxmSubscriptionInfo(),
+    ).rejects.toThrow("getSxmSubscriptionInfo request did not succeed");
 
     requestService["sendRequest"] = originalSendRequest;
   });

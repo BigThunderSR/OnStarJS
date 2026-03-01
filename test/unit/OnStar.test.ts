@@ -122,6 +122,14 @@ describe("OnStar", () => {
     verify(requestService.location()).once();
   });
 
+  test("getWarrantyInfo", async () => {
+    await onStar.getWarrantyInfo();
+  });
+
+  test("getSxmSubscriptionInfo", async () => {
+    await onStar.getSxmSubscriptionInfo();
+  });
+
   test("setCheckRequestStatus", () => {
     onStar.setCheckRequestStatus(true);
 
