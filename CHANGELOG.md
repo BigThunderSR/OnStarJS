@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.16.1](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.0...v2.16.1) (2026-03-11)
+
+
+### Bug Fixes
+
+* correct issue references to use fully-qualified repo names ([1af5f77](https://github.com/BigThunderSR/OnStarJS/commit/1af5f77e5240a8c2a653575a1dced91370dfb433)), closes [#333](https://github.com/BigThunderSR/OnStarJS/issues/333) [#418](https://github.com/BigThunderSR/OnStarJS/issues/418) [addons#418](https://github.com/BigThunderSR/addons/issues/418) [#667](https://github.com/BigThunderSR/OnStarJS/issues/667) [o2m#667](https://github.com/BigThunderSR/o2m/issues/667)
+* **deps:** bump patchright from 1.57.0 to 1.58.2 ([e73c2dc](https://github.com/BigThunderSR/OnStarJS/commit/e73c2dc0b15da6d03ad2e721ae51aa0fa9d776dd))
+* propagate HTTP status/statusText on RequestError response ([3b9605d](https://github.com/BigThunderSR/OnStarJS/commit/3b9605dc9044fe5ef5c8ef4c1c0a012db7e12ebf)), closes [BigThunderSR/homeassistant-addons-onstar2mqtt#1662](https://github.com/BigThunderSR/homeassistant-addons-onstar2mqtt/issues/1662)
+
 ## [2.16.0](https://github.com/BigThunderSR/OnStarJS/compare/v2.15.2...v2.16.0) (2026-03-01)
 
 
