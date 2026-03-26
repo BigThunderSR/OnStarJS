@@ -819,7 +819,7 @@ describe("RequestService", () => {
       .setChargeLevelTarget(75, {
         noMetricsRefresh: true,
         clientRequestId: "test-123",
-        clientVersion: "7.18.0.8006",
+        clientVersion: "8.5.0.8060",
         os: "I",
       });
     expect(result.status).toEqual(CommandResponseStatus.success);
@@ -969,7 +969,7 @@ describe("RequestService", () => {
     const result = await requestService.setClient(httpClient).stopCharging({
       noMetricsRefresh: false,
       clientRequestId: "test-456",
-      clientVersion: "7.18.0.8006",
+      clientVersion: "8.5.0.8060",
       os: "A",
     });
     expect(result.status).toEqual(CommandResponseStatus.success);

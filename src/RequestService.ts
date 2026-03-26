@@ -274,7 +274,7 @@ class RequestService {
     opts?: {
       noMetricsRefresh?: boolean;
       clientRequestId?: string;
-      clientVersion?: string; // default 7.18.0.8006
+      clientVersion?: string; // default 8.5.0.8060
       os?: "A" | "I"; // Android or iOS indicator for EV API metadata
     },
   ): Promise<Result> {
@@ -289,8 +289,8 @@ class RequestService {
     let vehicleId = sessionVehicleId!; // must come from initSession metrics
 
     const baseUrl = `https://eve-vcn.ext.gm.com/api/gmone/v1/vehicle/performSetChargingSettings`;
-    const clientVersion = opts?.clientVersion ?? "7.18.0.8006";
-    const os = opts?.os ?? "A"; // default Android metadata
+    const clientVersion = opts?.clientVersion ?? "8.5.0.8060";
+    const os = opts?.os ?? "a"; // default Android metadata
     const query = new URLSearchParams({
       vehicleVin: this.config.vin,
       clientVersion,
@@ -349,7 +349,7 @@ class RequestService {
   async stopCharging(opts?: {
     noMetricsRefresh?: boolean;
     clientRequestId?: string;
-    clientVersion?: string; // default 7.18.0.8006
+    clientVersion?: string; // default 8.5.0.8060
     os?: "A" | "I"; // Android or iOS indicator for EV API metadata
   }): Promise<Result> {
     const gmMobileToken = (await this.getAuthToken()).access_token;
@@ -358,8 +358,8 @@ class RequestService {
     let vehicleId = sessionVehicleId!;
 
     const baseUrl = `https://eve-vcn.ext.gm.com/api/gmone/v1/vehicle/performStopCharging`;
-    const clientVersion = opts?.clientVersion ?? "7.18.0.8006";
-    const os = opts?.os ?? "A";
+    const clientVersion = opts?.clientVersion ?? "8.5.0.8060";
+    const os = opts?.os ?? "a";
     const query = new URLSearchParams({
       vehicleVin: this.config.vin,
       clientVersion,
@@ -411,7 +411,7 @@ class RequestService {
    * API responds synchronously with metrics payload.
    */
   async getEVChargingMetrics(opts?: {
-    clientVersion?: string; // default 7.18.0.8006
+    clientVersion?: string; // default 8.5.0.8060
     os?: "A" | "I"; // Android or iOS indicator for EV API metadata
   }): Promise<Result> {
     const gmMobileToken = (await this.getAuthToken()).access_token;
@@ -419,8 +419,8 @@ class RequestService {
       await this.ensureEVSession(gmMobileToken);
 
     const baseUrl = `https://eve-vcn.ext.gm.com/api/gmone/v1/vehicle/getVehicleChargingMetrics`;
-    const clientVersion = opts?.clientVersion ?? "7.18.0.8006";
-    const os = opts?.os ?? "A";
+    const clientVersion = opts?.clientVersion ?? "8.5.0.8060";
+    const os = opts?.os ?? "a";
     const query = new URLSearchParams({
       vehicleId: vehicleId!,
       vehicleVin: this.config.vin,
@@ -467,7 +467,7 @@ class RequestService {
    * and returns the synchronous metrics payload. Retries once on EV auth errors.
    */
   async refreshEVChargingMetrics(opts?: {
-    clientVersion?: string; // default 7.18.0.8006
+    clientVersion?: string; // default 8.5.0.8060
     os?: "A" | "I"; // Android or iOS indicator for EV API metadata
   }): Promise<Result> {
     const gmMobileToken = (await this.getAuthToken()).access_token;
@@ -476,8 +476,8 @@ class RequestService {
 
     const baseUrl =
       "https://eve-vcn.ext.gm.com/api/gmone/v1/vehicle/performVehicleChargingMetricsQuery";
-    const clientVersion = opts?.clientVersion ?? "7.18.0.8006";
-    const os = opts?.os ?? "A";
+    const clientVersion = opts?.clientVersion ?? "8.5.0.8060";
+    const os = opts?.os ?? "a";
     const query = new URLSearchParams({
       vehicleVin: this.config.vin,
       clientVersion,
@@ -972,7 +972,7 @@ class RequestService {
       accept: "application/json",
       "accept-encoding": "gzip",
       "accept-language": "en-US",
-      appversion: "myOwner-chevrolet-android-7.18.0-0",
+      appversion: "myOwner-chevrolet-android-8.5.0-0",
       locale: "en-US",
       "content-type": request.getContentType(),
       "user-agent": onStarAppConfig.userAgent,
@@ -1238,7 +1238,7 @@ class RequestService {
   ): Promise<{ token: string; vehicleId?: string }> {
     // Build URL with required metadata
     const baseUrl = `https://eve-vcn.ext.gm.com/api/gmone/v1/admin/initSession`;
-    const clientVersion = "7.18.0.8006";
+    const clientVersion = "8.5.0.8060";
     const query = new URLSearchParams({
       vehicleVin: this.config.vin,
       clientVersion,

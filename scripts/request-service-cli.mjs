@@ -223,7 +223,7 @@ async function main() {
             ).trim() || undefined;
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 7.18.0.8006]: ")
+              await rl.question("clientVersion [default: 8.5.0.8060]: ")
             ).trim() || undefined;
           const osAns = (await rl.question("os metadata [A|I] [default: A]: "))
             .trim()
@@ -276,7 +276,7 @@ async function main() {
             ).trim() || undefined;
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 7.18.0.8006]: ")
+              await rl.question("clientVersion [default: 8.5.0.8060]: ")
             ).trim() || undefined;
           const osAns = (await rl.question("os metadata [A|I] [default: A]: "))
             .trim()
@@ -302,7 +302,7 @@ async function main() {
         if (useOpts) {
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 7.18.0.8006]: ")
+              await rl.question("clientVersion [default: 8.5.0.8060]: ")
             ).trim() || undefined;
           const osAns = (await rl.question("os metadata [A|I] [default: A]: "))
             .trim()
@@ -325,7 +325,7 @@ async function main() {
         if (useOpts) {
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 7.18.0.8006]: ")
+              await rl.question("clientVersion [default: 8.5.0.8060]: ")
             ).trim() || undefined;
           const osAns = (await rl.question("os metadata [A|I] [default: A]: "))
             .trim()
