@@ -392,9 +392,6 @@ onStar.getEVChargingMetrics([options]);
 
 | Option        | Default      | Valid Values             |
 | ------------- | ------------ | ------------------------ |
-| clientVersion | "8.5.0.8060" | Any version string       |
-| clientVersion | "8.5.0.8060" | Any version string       |
-| clientVersion | "8.5.0.8060" | Any version string       |
 | os            | "a"          | "a" (Android), "I" (iOS) |
 | clientVersion | "8.5.0.8060" | Any version string       |
 
@@ -430,10 +427,6 @@ onStar.setChargeLevelTarget(tcl, [options]);
 | tcl              | (required)     | 0-100 (percentage)       |
 | noMetricsRefresh | false          | true, false              |
 | clientRequestId  | auto-generated | Any UUID string          |
-| clientVersion    | "8.5.0.8060"   | Any version string       |
-| clientVersion    | "8.5.0.8060"   | Any version string       |
-| clientVersion    | "8.5.0.8060"   | Any version string       |
-| clientVersion    | "8.5.0.8060"   | Any version string       |
 | os               | "a"            | "a" (Android), "I" (iOS) |
 | clientVersion    | "8.5.0.8060"   | Any version string       |
 
