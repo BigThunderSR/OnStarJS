@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.16.3](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.2...v2.16.3) (2026-03-31)
+
+
+### Bug Fixes
+
+* **deps:** pin axios to ^1.14.0 (1.14.1 pulled from npm registry) ([46c904e](https://github.com/BigThunderSR/OnStarJS/commit/46c904e2de4f7d447a14b8033ba1b2fd0b7d0528))
+
 ## [2.16.2](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.1...v2.16.2) (2026-03-31)
 
 
