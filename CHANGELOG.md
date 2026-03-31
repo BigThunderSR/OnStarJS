@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.16.2](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.1...v2.16.2) (2026-03-31)
+
+
+### Bug Fixes
+
+* **deps:** bump axios from 1.13.6 to 1.14.0 ([cba70f3](https://github.com/BigThunderSR/OnStarJS/commit/cba70f3bcd1bdfb9299085f0d90193ffeb3f456d))
+
 ## [2.16.1](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.0...v2.16.1) (2026-03-11)
 
 
