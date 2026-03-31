@@ -1246,7 +1246,7 @@ class RequestService {
       buildType: "r",
       clientLocale: "en-US",
       deviceId: this.config.deviceId,
-      os: "a", // emulate iOS like captured traffic (works with either)
+      os: "a", // emulate Android like captured traffic (works with either)
       ts: String(Date.now()),
       sid: this.randomHex(8).toUpperCase(),
       pid: this.randomHex(8).toUpperCase(),
