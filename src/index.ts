@@ -117,7 +117,7 @@ class OnStar {
       noMetricsRefresh?: boolean;
       clientRequestId?: string;
       clientVersion?: string;
-      os?: "A" | "I";
+      os?: "a" | "I";
     },
   ): Promise<Result> {
     return this.requestService.setChargeLevelTarget(tcl, opts);
@@ -128,7 +128,7 @@ class OnStar {
     noMetricsRefresh?: boolean;
     clientRequestId?: string;
     clientVersion?: string;
-    os?: "A" | "I";
+    os?: "a" | "I";
   }): Promise<Result> {
     return this.requestService.stopCharging(opts);
   }
@@ -136,7 +136,7 @@ class OnStar {
   // EV: Get current charging metrics
   async getEVChargingMetrics(opts?: {
     clientVersion?: string;
-    os?: "A" | "I";
+    os?: "a" | "I";
   }): Promise<Result> {
     return this.requestService.getEVChargingMetrics(opts);
   }
@@ -144,7 +144,7 @@ class OnStar {
   // EV: Force-refresh and get live charging metrics
   async refreshEVChargingMetrics(opts?: {
     clientVersion?: string;
-    os?: "A" | "I";
+    os?: "a" | "I";
   }): Promise<Result> {
     return this.requestService.refreshEVChargingMetrics(opts);
   }

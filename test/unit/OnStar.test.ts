@@ -62,7 +62,7 @@ describe("OnStar", () => {
     await onStar.setChargeLevelTarget(80, {
       noMetricsRefresh: true,
       clientRequestId: "test-123",
-      clientVersion: "7.18.0.8006",
+      clientVersion: "8.5.0.8060",
       os: "I",
     });
   });
@@ -75,8 +75,8 @@ describe("OnStar", () => {
     await onStar.stopCharging({
       noMetricsRefresh: false,
       clientRequestId: "test-456",
-      clientVersion: "7.18.0.8006",
-      os: "A",
+      clientVersion: "8.5.0.8060",
+      os: "a",
     });
   });
 

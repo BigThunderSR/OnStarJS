@@ -223,12 +223,11 @@ async function main() {
             ).trim() || undefined;
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 7.18.0.8006]: ")
+              await rl.question("clientVersion [default: 8.5.0.8060]: ")
             ).trim() || undefined;
-          const osAns = (await rl.question("os metadata [A|I] [default: A]: "))
-            .trim()
-            .toUpperCase();
-          const os = osAns === "A" || osAns === "I" ? osAns : undefined;
+          const osAns = (await rl.question("os metadata [a|I] [default: a]: "))
+            .trim();
+          const os = osAns === "a" || osAns === "I" ? osAns : undefined;
           opts = { noMetricsRefresh, clientRequestId, clientVersion, os };
         }
 
@@ -276,12 +275,11 @@ async function main() {
             ).trim() || undefined;
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 7.18.0.8006]: ")
+              await rl.question("clientVersion [default: 8.5.0.8060]: ")
             ).trim() || undefined;
-          const osAns = (await rl.question("os metadata [A|I] [default: A]: "))
-            .trim()
-            .toUpperCase();
-          const os = osAns === "A" || osAns === "I" ? osAns : undefined;
+          const osAns = (await rl.question("os metadata [a|I] [default: a]: "))
+            .trim();
+          const os = osAns === "a" || osAns === "I" ? osAns : undefined;
           opts = { noMetricsRefresh, clientRequestId, clientVersion, os };
         }
         const finalOpts = Object.assign({}, opts || {}, {
@@ -302,12 +300,11 @@ async function main() {
         if (useOpts) {
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 7.18.0.8006]: ")
+              await rl.question("clientVersion [default: 8.5.0.8060]: ")
             ).trim() || undefined;
-          const osAns = (await rl.question("os metadata [A|I] [default: A]: "))
-            .trim()
-            .toUpperCase();
-          const os = osAns === "A" || osAns === "I" ? osAns : undefined;
+          const osAns = (await rl.question("os metadata [a|I] [default: a]: "))
+            .trim();
+          const os = osAns === "a" || osAns === "I" ? osAns : undefined;
           opts = { clientVersion, os };
         }
         return client.getEVChargingMetrics(opts);
@@ -325,12 +322,11 @@ async function main() {
         if (useOpts) {
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 7.18.0.8006]: ")
+              await rl.question("clientVersion [default: 8.5.0.8060]: ")
             ).trim() || undefined;
-          const osAns = (await rl.question("os metadata [A|I] [default: A]: "))
-            .trim()
-            .toUpperCase();
-          const os = osAns === "A" || osAns === "I" ? osAns : undefined;
+          const osAns = (await rl.question("os metadata [a|I] [default: a]: "))
+            .trim();
+          const os = osAns === "a" || osAns === "I" ? osAns : undefined;
           opts = { clientVersion, os };
         }
         return client.refreshEVChargingMetrics(opts);
