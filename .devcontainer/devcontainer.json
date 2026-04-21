@@ -1,7 +1,11 @@
 {
-  "name": "Codespace Environment",
+  "name": "OnStarJS",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
   "onCreateCommand": "git lfs update --force",
-  "postCreateCommand": "echo '\\n=== Updating package lists ===' && sudo apt update && echo '\\n=== Upgrading packages ===' && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y && echo '\\n=== Installing xvfb ===' && sudo apt install xvfb -y && echo '\\n=== Enabling corepack ===' && corepack enable && echo '\\n=== Installing corepack packages ===' && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack install && echo '\\n=== Setting up pnpm ===' && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 pnpm setup && echo '\\n=== Installing patchright globally ===' && PNPM_HOME=\"/home/codespace/.local/share/pnpm\" PATH=\"/home/codespace/.local/share/pnpm:$PATH\" COREPACK_ENABLE_DOWNLOAD_PROMPT=0 pnpm add -g patchright && echo '\\n=== Installing patchright dependencies ===' && sudo env PATH=\"/home/codespace/.local/share/pnpm:$PATH\" patchright install-deps && echo '\\n=== Installing npm packages ===' && PNPM_HOME=\"/home/codespace/.local/share/pnpm\" PATH=\"/home/codespace/.local/share/pnpm:$PATH\" COREPACK_ENABLE_DOWNLOAD_PROMPT=0 pnpm install && echo '\\n=== Setting up environment ===' && chmod +x scripts/setup-env.sh && node scripts/setup-env.js",
+  "postCreateCommand": "corepack enable && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack install && pnpm setup && . ~/.bashrc && pnpm install && sudo apt-get update && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y xvfb && pnpm add -g patchright && sudo npx patchright install-deps && chmod +x scripts/setup-env.sh && node scripts/setup-env.js",
   "customizations": {
     "vscode": {
       "settings": {
@@ -13,5 +17,6 @@
         "bradlc.vscode-tailwindcss"
       ]
     }
-  }
+  },
+  "mounts": []
 }
