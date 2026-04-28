@@ -1,6 +1,6 @@
 {
   "name": "OnStarJS",
-  "image": "mcr.microsoft.com/devcontainers/universal:2-noble",
+  "image": "mcr.microsoft.com/devcontainers/universal:noble",
   "onCreateCommand": "git lfs update --force",
   "postCreateCommand": "echo '\\n=== Updating package lists ===' && sudo apt update && echo '\\n=== Upgrading packages ===' && sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y && echo '\\n=== Switching to Node 22 ===' && . /usr/local/share/nvm/nvm.sh && nvm use 22 && echo '\\n=== Enabling corepack ===' && corepack enable && echo '\\n=== Installing corepack packages ===' && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack install && echo '\\n=== Setting up pnpm ===' && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 SHELL=/bin/bash pnpm setup && echo '\\n=== Installing patchright globally ===' && PNPM_HOME=\"$HOME/.local/share/pnpm\" PATH=\"$HOME/.local/share/pnpm:$PATH\" COREPACK_ENABLE_DOWNLOAD_PROMPT=0 pnpm add -g patchright && echo '\\n=== Installing patchright dependencies ===' && sudo env PATH=\"$HOME/.local/share/pnpm:$PATH\" patchright install-deps && echo '\\n=== Installing npm packages ===' && PNPM_HOME=\"$HOME/.local/share/pnpm\" PATH=\"$HOME/.local/share/pnpm:$PATH\" COREPACK_ENABLE_DOWNLOAD_PROMPT=0 pnpm install && echo '\\n=== Setting up environment ===' && chmod +x scripts/setup-env.sh && node scripts/setup-env.js",
   "customizations": {
