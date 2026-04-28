@@ -1,5 +1,11 @@
 {
-  "name": "OnStarJS (Codespaces)",
+  "name": "OnStarJS (Local)",
+  "image": "mcr.microsoft.com/devcontainers/base:noble",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/git-lfs:1": {}
+  },
   "onCreateCommand": "git lfs update --force",
   "postCreateCommand": "bash .devcontainer/setup.sh",
   "customizations": {
