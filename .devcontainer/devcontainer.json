@@ -1,7 +1,8 @@
 {
   "name": "OnStarJS",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:22-bookworm",
+  "image": "mcr.microsoft.com/devcontainers/base:noble",
   "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" },
     "ghcr.io/devcontainers/features/github-cli:1": {},
     "ghcr.io/devcontainers/features/git-lfs:1": {}
   },
