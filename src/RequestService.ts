@@ -23,7 +23,7 @@ import {
 } from "./types";
 import onStarAppConfig from "./onStarAppConfig.json";
 import axios from "axios";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "crypto";
 import { getGMAPIJWT } from "./auth/GMAuth";
 
 enum OnStarApiCommand {
@@ -309,7 +309,7 @@ class RequestService {
       tcl: String(Math.round(tcl)),
       vehicleId,
       noMetricsRefresh: String(opts?.noMetricsRefresh ?? false),
-      clientRequestId: opts?.clientRequestId ?? uuidv4(),
+      clientRequestId: opts?.clientRequestId ?? randomUUID(),
     });
 
     // VehicleId is derived exclusively from initSession metrics
@@ -377,7 +377,7 @@ class RequestService {
     const bodyParams = new URLSearchParams({
       vehicleId,
       noMetricsRefresh: String(opts?.noMetricsRefresh ?? false),
-      clientRequestId: opts?.clientRequestId ?? uuidv4(),
+      clientRequestId: opts?.clientRequestId ?? randomUUID(),
     });
 
     const makeReq = (token: string) =>
