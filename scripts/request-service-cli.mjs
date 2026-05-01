@@ -2,7 +2,7 @@ import "dotenv/config";
 import readline from "node:readline/promises";
 import { stdin as input, stdout as output } from "node:process";
 import OnStar from "../dist/index.mjs";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
@@ -231,7 +231,7 @@ async function main() {
           opts = { noMetricsRefresh, clientRequestId, clientVersion, os };
         }
 
-        const clientRequestId = opts?.clientRequestId || uuidv4();
+        const clientRequestId = opts?.clientRequestId || randomUUID();
         const noMetricsRefresh =
           typeof opts?.noMetricsRefresh === "boolean"
             ? opts.noMetricsRefresh
@@ -283,7 +283,7 @@ async function main() {
           opts = { noMetricsRefresh, clientRequestId, clientVersion, os };
         }
         const finalOpts = Object.assign({}, opts || {}, {
-          clientRequestId: opts?.clientRequestId || uuidv4(),
+          clientRequestId: opts?.clientRequestId || randomUUID(),
         });
         return client.stopCharging(finalOpts);
       },
