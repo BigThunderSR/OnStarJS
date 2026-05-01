@@ -7,8 +7,10 @@
     "declaration": true,
     "outDir": "dist",
     "declarationDir": ".",
-    "moduleResolution": "node",
-    "resolveJsonModule": true
+    "rootDir": "./src",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "types": ["jest"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "test", "dist"]
