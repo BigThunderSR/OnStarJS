@@ -5,5 +5,7 @@ export default {
   coveragePathIgnorePatterns: [
     "./src/auth/GMAuth.ts", // Add the path to the file you want to exclude
   ],
-  transformIgnorePatterns: ["node_modules/(?!(agent-base|http-cookie-agent)/)"],
+  transformIgnorePatterns: [
+    "node_modules/(?!(\\.pnpm/(agent-base|http-cookie-agent)|agent-base|http-cookie-agent)/)",
+  ],
 };
