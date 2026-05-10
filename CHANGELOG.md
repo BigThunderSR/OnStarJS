@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.16.4](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.3...v2.16.4) (2026-05-10)
+
+
+### Bug Fixes
+
+* add JS transform for ESM node_modules dependencies ([23cd429](https://github.com/BigThunderSR/OnStarJS/commit/23cd4293239723ab5ac48af5d2bf769ad42cae3b))
+* add transformIgnorePatterns for ESM dependencies in Jest config ([ff5a821](https://github.com/BigThunderSR/OnStarJS/commit/ff5a821a102b1eb1fa6273e715ab988cc8c732e1))
+* allow pnpm v11 dependency build scripts ([717685e](https://github.com/BigThunderSR/OnStarJS/commit/717685eea25ae5dbf806f076cbd16fdb4ffaf92b))
+* **build:** add esmExternals to rollup commonJS plugin for tough-cookie v6 ([bdd25d5](https://github.com/BigThunderSR/OnStarJS/commit/bdd25d56953f621d51d4f73730f314960c320945))
+* **deps:** bump axios from 1.14.0 to 1.15.1 ([3aa707f](https://github.com/BigThunderSR/OnStarJS/commit/3aa707f6b622dcc038aa6face86350f0fdf2cfb8))
+* **deps:** bump axios from 1.15.1 to 1.15.2 ([83fe717](https://github.com/BigThunderSR/OnStarJS/commit/83fe717310506bfb6a5e411dad91294ef81488fb))
+* **deps:** bump axios from 1.15.2 to 1.16.0 ([61c0b40](https://github.com/BigThunderSR/OnStarJS/commit/61c0b40b818e951a84b9864b1a4ff67c3939768e))
+* **deps:** bump patchright from 1.58.2 to 1.59.4 ([ac127a1](https://github.com/BigThunderSR/OnStarJS/commit/ac127a18fd0ef96a2c12e1067487069d0dac96c9))
+* **deps:** bump tough-cookie from 5.1.2 to 6.0.1 ([c24563d](https://github.com/BigThunderSR/OnStarJS/commit/c24563d894d105774e60c54ec0290eba538f6e1a))
+* **deps:** update dependency http-cookie-agent to ^7.0.4 ([705e667](https://github.com/BigThunderSR/OnStarJS/commit/705e6670a4ef702be424e8516d36da44918eeb08))
+* handle pnpm nested node_modules in transformIgnorePatterns ([3bb8111](https://github.com/BigThunderSR/OnStarJS/commit/3bb81115dee64a47b6ad86f8153334c902f1d9c3))
+* simplify transformIgnorePatterns for pnpm compatibility ([d76a345](https://github.com/BigThunderSR/OnStarJS/commit/d76a345a4f3e6f8d935231adcb6a5ec092bda995))
+* update tsconfig for TypeScript 6 compatibility ([801a388](https://github.com/BigThunderSR/OnStarJS/commit/801a38898d5efd027fc69032d8c2eb8a49a16523))
+
 ## [2.16.3](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.2...v2.16.3) (2026-03-31)
 
 
