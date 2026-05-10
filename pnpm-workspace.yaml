@@ -1,0 +1,3 @@
+allowBuilds:
+  sleep: true
+  unrs-resolver: true
