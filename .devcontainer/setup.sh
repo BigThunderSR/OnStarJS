@@ -38,7 +38,7 @@ echo -e '\n=== Setting up pnpm ==='
 COREPACK_ENABLE_DOWNLOAD_PROMPT=0 SHELL=/bin/bash pnpm setup
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
-export PATH="$PNPM_HOME:$PATH"
+export PATH="$PNPM_HOME/bin:$PNPM_HOME:$PATH"
 
 echo -e '\n=== Installing patchright globally ==='
 COREPACK_ENABLE_DOWNLOAD_PROMPT=0 pnpm add -g patchright
