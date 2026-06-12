@@ -79,7 +79,7 @@
     "http-cookie-agent": "^7.0.4",
     "jsonwebtoken": "^9.0.3",
     "openid-client": "^5.7.1",
-    "patchright": "^1.59.4",
+    "patchright": "^1.60.2",
     "totp-generator": "^2.0.1",
     "tough-cookie": "^6.0.1",
     "xvfb": "^0.4.0"
