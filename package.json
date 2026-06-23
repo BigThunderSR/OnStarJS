@@ -76,7 +76,7 @@
   "dependencies": {
     "axios": "^1.17.0",
     "chromium-bidi": "^15.0.0",
-    "http-cookie-agent": "^7.0.4",
+    "http-cookie-agent": "^8.0.0",
     "jsonwebtoken": "^9.0.3",
     "openid-client": "^5.7.1",
     "patchright": "^1.60.2",
