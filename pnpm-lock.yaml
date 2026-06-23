@@ -24,7 +24,7 @@ importers:
         specifier: ^5.7.1
         version: 5.7.1
       patchright:
-        specifier: ^1.60.2
+        specifier: 1.60.2
         version: 1.60.2
       totp-generator:
         specifier: ^2.0.1
