@@ -15,8 +15,8 @@ importers:
         specifier: ^15.0.0
         version: 15.0.0(devtools-protocol@0.0.1538951)
       http-cookie-agent:
-        specifier: ^7.0.4
-        version: 7.0.4(tough-cookie@6.0.1)
+        specifier: ^8.0.0
+        version: 8.0.0(tough-cookie@6.0.1)
       jsonwebtoken:
         specifier: ^9.0.3
         version: 9.0.3
@@ -1439,12 +1439,12 @@ packages:
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
 
-  http-cookie-agent@7.0.4:
-    resolution: {integrity: sha512-BF9iTnice7+LI4tHB8Bm0nFnp+J+bAY5Cll53uEa9NIFQCM7noUyWbImqJhB+j0drmJHvE/Wr6o+8FXq7IVYeA==}
-    engines: {node: '>=20.0.0'}
+  http-cookie-agent@8.0.0:
+    resolution: {integrity: sha512-c5A2W4NXYRQR+ZOEA+nzLlWj0K7zXAG21UZaDKfZrFSlmmb1MMXBVDhQJNUNYkYJZwFi0ptlNu4r37tEM45tvg==}
+    engines: {node: '>=22.0.0'}
     peerDependencies:
       tough-cookie: ^4.0.0 || ^5.0.0 || ^6.0.0
-      undici: ^7.0.0
+      undici: ^7.0.0 || ^8.0.0
     peerDependenciesMeta:
       undici:
         optional: true
@@ -4001,7 +4001,7 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
-  http-cookie-agent@7.0.4(tough-cookie@6.0.1):
+  http-cookie-agent@8.0.0(tough-cookie@6.0.1):
     dependencies:
       agent-base: 9.0.0
       tough-cookie: 6.0.1
