@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.16.5](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.4...v2.16.5) (2026-07-18)
+
+
+### Bug Fixes
+
+* **deps:** bump axios from 1.16.0 to 1.17.0 ([1b22fa9](https://github.com/BigThunderSR/OnStarJS/commit/1b22fa9556a7a32f25f3e6bbb5c56209f676b288))
+* **deps:** bump axios from 1.17.0 to 1.18.0 ([5ded402](https://github.com/BigThunderSR/OnStarJS/commit/5ded402bbfd5a71725a4e10bd14291bfed840e23))
+* **deps:** bump axios from 1.18.0 to 1.18.1 ([96194a5](https://github.com/BigThunderSR/OnStarJS/commit/96194a5a639ea2fe51d387614a39f5659d2337d3))
+* **deps:** bump chromium-bidi from 15.0.0 to 17.0.2 ([63c3770](https://github.com/BigThunderSR/OnStarJS/commit/63c3770242643b2e9230f8b8ec4e7cbd3df22c5b))
+* **deps:** bump patchright from 1.59.4 to 1.60.2 ([c22450a](https://github.com/BigThunderSR/OnStarJS/commit/c22450a4618fc02eb7e752c27fbfd9881de80bbf))
+* **deps:** bump patchright from 1.60.2 to 1.61.0 ([fc81ef8](https://github.com/BigThunderSR/OnStarJS/commit/fc81ef8c4507e577364696404525f0be9dc3cfc3))
+* **deps:** bump tough-cookie from 6.0.1 to 6.0.2 ([f6bd11a](https://github.com/BigThunderSR/OnStarJS/commit/f6bd11a8245e7f4d26c9bed783a257e5692dd337))
+* **deps:** pin patchright to 1.60.2 to prevent auto-upgrade to 1.61.0 ([12d195d](https://github.com/BigThunderSR/OnStarJS/commit/12d195d2bf0931c71371206c160d6308926fc337))
+* **jest:** suppress ts-jest 29.4.10+ dual-Program TS2719 false positive ([b0af0b2](https://github.com/BigThunderSR/OnStarJS/commit/b0af0b2b436dc826070df9b43070463899a07dd6))
+* **setup:** update PATH export for pnpm setup ([a95072b](https://github.com/BigThunderSR/OnStarJS/commit/a95072b8134ddf817778dcaaeaa688e40113e82a))
+
 ## [2.16.4](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.3...v2.16.4) (2026-05-10)
 
 
