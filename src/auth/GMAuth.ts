@@ -1433,6 +1433,7 @@ export class GMAuth {
     const maxRetries = 4; // Increased from 2 to 4 (5 total attempts)
     let lastError: Error | null = null;
     let useRandomFingerprint = true; // Always use randomized fingerprint for better evasion
+    let attemptsRun = 0;
 
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
       try {
@@ -1442,10 +1443,7 @@ export class GMAuth {
           );
 
           // More sophisticated backoff with human-like patterns
-          const baseDelayMs =
-            lastError && lastError.message.includes("Access Denied")
-              ? 20000 + Math.random() * 10000 // 20-30 seconds for access denied with randomization
-              : 8000 + Math.random() * 4000; // 8-12 seconds for other errors
+          const baseDelayMs = 8000 + Math.random() * 4000;
 
           const exponentialDelay = baseDelayMs * Math.pow(1.5, attempt - 1); // Reduced exponential factor
           const jitter = Math.random() * 0.5 * exponentialDelay; // 50% jitter for unpredictability
@@ -1505,6 +1503,7 @@ export class GMAuth {
         return tokenSet;
       } catch (error) {
         lastError = error as Error;
+        attemptsRun = attempt + 1;
         console.error(
           `❌ Authentication attempt ${attempt + 1} failed:`,
           error,
@@ -1520,9 +1519,16 @@ export class GMAuth {
         // If this is not the last attempt, continue to retry
         if (attempt < maxRetries) {
           const isAccessDenied = lastError.message.includes("Access Denied");
-          const nextDelaySeconds = isAccessDenied
-            ? `${((12000 * Math.pow(2, attempt)) / 1000).toFixed(1)}-${((12000 * Math.pow(2, attempt) * 1.4) / 1000).toFixed(1)}`
-            : `${((5000 * Math.pow(2, attempt)) / 1000).toFixed(1)}-${((5000 * Math.pow(2, attempt) * 1.4) / 1000).toFixed(1)}`;
+          const isPermanentFailure =
+            isAccessDenied ||
+            lastError.message.includes("Email MFA is not supported") ||
+            lastError.message.includes("Only TOTP") ||
+            lastError.message.includes("TOTP Key does not meet");
+          // Permanent failures cannot be resolved by retrying.
+          if (isPermanentFailure) {
+            break;
+          }
+          const nextDelaySeconds = `${((5000 * Math.pow(2, attempt)) / 1000).toFixed(1)}-${((5000 * Math.pow(2, attempt) * 1.4) / 1000).toFixed(1)}`;
           console.log(
             `⏳ Will retry authentication in ~${nextDelaySeconds} seconds...`,
           );
@@ -1532,7 +1538,7 @@ export class GMAuth {
     }
 
     // If we get here, all retries failed
-    console.error(`🚫 Authentication failed after ${maxRetries + 1} attempts`);
+    console.error(`🚫 Authentication failed after ${attemptsRun} attempt(s)`);
 
     // Clean up on final failure
     try {
@@ -1591,6 +1597,7 @@ export class GMAuth {
       console.log(
         "🔍 Scanning for multi-factor authentication (MFA) input elements...",
       );
+
       // Look for MFA elements
       await page.waitForSelector(
         'input[name="otpCode"], input[name="emailMfa"], input[name="strongAuthenticationPhoneNumber"]',
@@ -2369,178 +2376,11 @@ export class GMAuth {
       await page.waitForTimeout(3000);
       var postSubmitTitle = await page.title();
 
-      // Check for access denied response detected by CDP
+      // Retrying after Access Denied escalates the server-side lockout score — bail out immediately.
       if (accessDenied) {
-        let retryCount = 0;
-        const maxRetries = 2;
-
-        while (accessDenied && retryCount < maxRetries) {
-          retryCount++;
-          console.log(
-            `🔄 Access denied detected. Retrying credential submission (attempt ${retryCount}/${maxRetries})...`,
-          );
-
-          // Reset the access denied flag for this retry
-          accessDenied = false;
-
-          // Human-like wait before retrying - simulate user thinking and trying again
-          const retryDelay = 2000 + Math.random() * 3000 + retryCount * 1000; // Progressive delay
-          console.log(
-            `⏳ Waiting ${(retryDelay / 1000).toFixed(1)}s before retry (simulating human behavior)...`,
-          );
-          await page.waitForTimeout(retryDelay);
-
-          try {
-            // Refresh the page to start over with credential submission
-            console.log("🔄 Refreshing authentication page for retry...");
-            await page.reload({ waitUntil: "networkidle", timeout: 60000 });
-
-            // Simulate human pause after page reload to read/assess the page
-            await page.waitForTimeout(1500 + Math.random() * 2500);
-
-            // Re-enter email with human-like behavior
-            console.log(
-              "🔍 Re-locating email input field after page refresh...",
-            );
-            const retryEmailField = page
-              .locator(
-                'input[type="email"], input[name="logonIdentifier"], input#logonIdentifier, [aria-label*="Email"i], [placeholder*="Email"i]',
-              )
-              .first();
-            await retryEmailField.waitFor({ timeout: 60000 });
-
-            console.log("✅ Email field found - entering email address");
-
-            // Simulate human mouse movement before clicking
-            const emailBox = await retryEmailField.boundingBox();
-            if (emailBox) {
-              await page.mouse.move(
-                emailBox.x + emailBox.width * (0.2 + Math.random() * 0.6),
-                emailBox.y + emailBox.height * (0.2 + Math.random() * 0.6),
-                { steps: Math.floor(Math.random() * 8) + 3 },
-              );
-              await page.waitForTimeout(150 + Math.random() * 300);
-            }
-
-            await retryEmailField.click({ delay: Math.random() * 200 + 50 });
-
-            // Type email with human-like timing
-            const email = this.config.username;
-            for (let i = 0; i < email.length; i++) {
-              await page.keyboard.type(email[i], {
-                delay: Math.random() * 120 + 40,
-              });
-              // Occasional hesitation during typing
-              if (Math.random() < 0.08) {
-                await page.waitForTimeout(200 + Math.random() * 500);
-              }
-            }
-
-            // Human pause before clicking continue
-            await page.waitForTimeout(800 + Math.random() * 1200);
-
-            // Click continue button
-            console.log("🔍 Locating Continue button...");
-            const retryContinueButton = page
-              .locator(
-                'button#continue[data-dtm="sign in"][aria-label="Continue"], button:has-text("Continue")[data-dtm="sign in"], [role="button"][aria-label*="Continue"i]',
-              )
-              .first();
-            await retryContinueButton.waitFor({ timeout: 60000 });
-
-            console.log(
-              "✅ Continue button found - clicking to proceed to password entry",
-            );
-            // Hover before clicking (human-like)
-            await retryContinueButton.hover();
-            await page.waitForTimeout(200 + Math.random() * 400);
-            await retryContinueButton.click({
-              delay: Math.random() * 200 + 50,
-            });
-
-            // Wait for password page
-            console.log("⏳ Waiting for password page to load...");
-            await page.waitForLoadState("networkidle", { timeout: 60000 });
-
-            // Human pause to assess password page
-            await page.waitForTimeout(1200 + Math.random() * 2000);
-
-            // Re-enter password with human-like behavior
-            console.log("🔍 Re-locating password input field...");
-            const retryPasswordField = page
-              .locator(
-                'input[type="password"], input[name="password"], [aria-label*="Password"i], [placeholder*="Password"i]',
-              )
-              .first();
-            await retryPasswordField.waitFor({ timeout: 60000 });
-
-            console.log("✅ Password field found - entering password");
-
-            // Simulate mouse movement before password field
-            const passwordBox = await retryPasswordField.boundingBox();
-            if (passwordBox) {
-              await page.mouse.move(
-                passwordBox.x + passwordBox.width * (0.2 + Math.random() * 0.6),
-                passwordBox.y +
-                  passwordBox.height * (0.2 + Math.random() * 0.6),
-                { steps: Math.floor(Math.random() * 8) + 4 },
-              );
-              await page.waitForTimeout(150 + Math.random() * 300);
-            }
-
-            await retryPasswordField.click({ delay: Math.random() * 200 + 50 });
-
-            // Type password with human-like timing
-            const password = this.config.password;
-            for (let i = 0; i < password.length; i++) {
-              await page.keyboard.type(password[i], {
-                delay: Math.random() * 100 + 50,
-              });
-              // Occasional hesitation during password typing
-              if (Math.random() < 0.06) {
-                await page.waitForTimeout(150 + Math.random() * 400);
-              }
-            }
-
-            // Human pause before final submission
-            await page.waitForTimeout(600 + Math.random() * 800);
-
-            // Re-submit credentials
-            console.log("🔍 Locating Sign In button for retry submission...");
-            const retrySubmitButton = page
-              .locator(
-                'button#continue[data-dtm="sign in"][aria-label="Sign in"], button:has-text("Log In")[data-dtm="sign in"], button:has-text("Sign in")[data-dtm="sign in"], [role="button"][aria-label*="Sign in"i], [role="button"][aria-label*="Log In"i]',
-              )
-              .first();
-            await retrySubmitButton.waitFor({ timeout: 60000 });
-
-            console.log(
-              "✅ Sign In button found - clicking to submit credentials again",
-            );
-
-            // Hover before final click
-            await retrySubmitButton.hover();
-            await page.waitForTimeout(100 + Math.random() * 200);
-            await retrySubmitButton.click({ delay: Math.random() * 200 + 50 }); // Wait for response
-            console.log(
-              "⏳ Waiting for authentication response after retry...",
-            );
-            await page.waitForTimeout(3000);
-            await page.waitForLoadState("networkidle", { timeout: 60000 });
-
-            console.log(`✅ Retry attempt ${retryCount} completed`);
-          } catch (retryError) {
-            console.error(`❌ Retry attempt ${retryCount} failed:`, retryError);
-            // Continue to next retry or exit loop if max retries reached
-          }
-        }
-
-        // If still access denied after all retries, throw the error
-        if (accessDenied) {
-          throw new Error(
-            `🚫 Access Denied: Authentication blocked after ${maxRetries} retries. This could be due to rate limiting, IP blocking, or security restrictions. Please wait before retrying or check if your IP is blocked.`,
-          );
-        }
+        throw new Error(
+          `🚫 Access Denied: GM's auth server blocked this sign-in attempt. Retrying immediately makes this worse. Wait several hours before trying again, or use the Firefox extension (https://github.com/metheos/onstar_firefox) to authenticate manually.`,
+        );
       }
 
       // Wait for network to be idle in case other things are happening,
@@ -2556,6 +2396,16 @@ export class GMAuth {
       await page.waitForLoadState("networkidle", { timeout: 60000 });
 
       postSubmitTitle = await page.title();
+
+      // Re-check after load settles — the CDP responseReceived may fire after the earlier check.
+      if (
+        accessDenied ||
+        postSubmitTitle.toLowerCase().includes("access denied")
+      ) {
+        throw new Error(
+          `🚫 Access Denied: GM's auth server blocked this sign-in attempt. Retrying immediately makes this worse. Wait several hours before trying again, or use the Firefox extension (https://github.com/metheos/onstar_firefox) to authenticate manually.`,
+        );
+      }
 
       // Check if we're still on the sign-in page (credential submission failed)
       // BUT FIRST: Check if we already captured the auth code via CDP - if so, auth succeeded!
