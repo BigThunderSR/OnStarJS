@@ -15,6 +15,16 @@ import { randomInt } from "crypto";
 import { execSync } from "child_process";
 import * as net from "net";
 
+// Strips a leading UTF-8 BOM before parsing, so cached token files that pick
+// one up (e.g. from being copied/restored via Windows tooling) still load
+// instead of failing JSON.parse and forcing an unnecessary full re-login.
+// exported for unit testing
+export function readJSONFile<T>(filePath: string): T {
+  const raw = fs.readFileSync(filePath, "utf-8");
+  const content = raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw;
+  return JSON.parse(content) as T;
+}
+
 // Define an interface for the vehicle structure and the payload containing them
 interface Vehicle {
   vin: string;
@@ -2779,9 +2789,7 @@ export class GMAuth {
 
     if (fs.existsSync(tokenFilePath)) {
       try {
-        const storedToken = JSON.parse(
-          fs.readFileSync(tokenFilePath, "utf-8"),
-        ) as GMAPITokenResponse;
+        const storedToken = readJSONFile<GMAPITokenResponse>(tokenFilePath);
 
         // Decode the JWT payload
         const decodedPayload = jwt.decode(storedToken.access_token);
@@ -3397,9 +3405,7 @@ export class GMAuth {
     if (fs.existsSync(this.MSTokenPath)) {
       let storedTokens = null;
       try {
-        storedTokens = JSON.parse(
-          fs.readFileSync(this.MSTokenPath, "utf-8"),
-        ) as TokenSet;
+        storedTokens = readJSONFile<TokenSet>(this.MSTokenPath);
       } catch (err) {
         console.log("Stored MS token was not parseable, getting new token");
         return false;
