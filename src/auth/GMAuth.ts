@@ -18,7 +18,8 @@ import * as net from "net";
 // Strips a leading UTF-8 BOM before parsing, so cached token files that pick
 // one up (e.g. from being copied/restored via Windows tooling) still load
 // instead of failing JSON.parse and forcing an unnecessary full re-login.
-function readJSONFile<T>(filePath: string): T {
+// exported for unit testing
+export function readJSONFile<T>(filePath: string): T {
   const raw = fs.readFileSync(filePath, "utf-8");
   const content = raw.charCodeAt(0) === 0xfeff ? raw.slice(1) : raw;
   return JSON.parse(content) as T;
