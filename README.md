@@ -50,6 +50,14 @@ Additional comments are noted in [this issue comment](https://github.com/samrum/
 
 **IMPORTANT: Valid system time is required for this process to work. Please ensure that your system (Docker host, Home Assistant etc.) time is valid using a mechanism such as NTP or Chrony before attempting to use the token authentication process.**
 
+## Authentication Troubleshooting
+
+### "Access Denied" during login
+
+GM's auth server uses bot detection that is unpredictable. On an `Access Denied` error, **wait several hours before retrying** — retrying immediately makes things worse. Starting with the next release, the library will not retry automatically on Access Denied.
+
+If automated authentication is consistently blocked for no explainable reason, use the [OnStar Auth Token Saver Firefox extension](https://github.com/metheos/onstar_firefox) to generate `microsoft_tokens.json` manually and place it in your `tokenLocation`. The library will use and refresh it for ~60 days.
+
 ## Sample
 
 Use a random version 4 uuid as a deviceId. Generator available [at this link](https://www.uuidgenerator.net/version4).
