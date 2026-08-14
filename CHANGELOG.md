@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.16.6](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.5...v2.16.6) (2026-08-14)
+
+### Bug Fixes
+
+* **deps:** bump axios from 1.18.1 to 1.19.0 ([1fbdada](https://github.com/BigThunderSR/OnStarJS/commit/1fbdadae6ed7556f112198f0e90dd799534f12a5))
+* stop retrying auth on Access Denied and other permanent failures ([8a30a95](https://github.com/BigThunderSR/OnStarJS/commit/8a30a959e77054fe2a3feaf098aeb3a1071fc2a0))
 ## [2.16.5](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.4...v2.16.5) (2026-07-18)
 
 
