@@ -213,8 +213,8 @@ importers:
         specifier: ^9.0.10
         version: 9.0.10
       commit-and-tag-version:
-        specifier: ^13.2.0
-        version: 13.2.0(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2)
+        specifier: ^13.2.1
+        version: 13.2.1(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2)
       dotenv:
         specifier: ^17.4.2
         version: 17.4.2
@@ -1264,8 +1264,8 @@ packages:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
     engines: {node: '>= 0.8'}
 
-  commit-and-tag-version@13.2.0:
-    resolution: {integrity: sha512-VTEimOv7cYWNBROM80r/UQTmCHu+pui723jf3QSd4nS3UHQgtsCxWhZCtr8CfCNfLk/ZDME4VUX5snp/kBPIjg==}
+  commit-and-tag-version@13.2.1:
+    resolution: {integrity: sha512-E9PldGnNugkmHvMrbuAVnMJQo8jLtpKah9KSLN8ktrH/95co5qpm1LKBlSZb6R/vN+NwoT44gVmPTNnSlq5keg==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -3432,7 +3432,7 @@ snapshots:
     dependencies:
       delayed-stream: 1.0.0
 
-  commit-and-tag-version@13.2.0(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2):
+  commit-and-tag-version@13.2.1(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2):
     dependencies:
       '@conventional-changelog/git-client': 3.1.0(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2)
       '@conventional-changelog/template': 1.2.1
