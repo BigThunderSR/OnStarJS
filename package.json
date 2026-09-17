@@ -47,7 +47,7 @@
       "prettier --write"
     ]
   },
-  "packageManager": "pnpm@12.4.1",
+  "packageManager": "pnpm@12.4.2",
   "standard-version": {
     "scripts": {
       "prerelease": "pnpm test:unit && pnpm build"
