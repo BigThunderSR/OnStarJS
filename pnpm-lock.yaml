@@ -182,8 +182,8 @@ importers:
         specifier: ^5.7.1
         version: 5.7.1
       patchright:
-        specifier: 1.60.2
-        version: 1.60.2
+        specifier: 1.63.0
+        version: 1.63.0
       totp-generator:
         specifier: ^2.0.1
         version: 2.0.1
@@ -1505,11 +1505,6 @@ packages:
     resolution: {integrity: sha512-vKatAh4SlVfgbv+YtmhiRjhEMJsYpsG1Y2rMQtR+SVSbytsSD1YGzDIcrAJmdFec88u/+VoGmxnl+80gL1tRCQ==}
     engines: {node: '>= 6'}
 
-  fsevents@2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
-    engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
-    os: [darwin]
-
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -2050,14 +2045,14 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
 
-  patchright-core@1.60.2:
-    resolution: {integrity: sha512-AzUYfbXla1/VVvIKJYK+tOQkdx7PwIM5qSnxz7Hnf2CcRdnqnM6n+goPQl3JLlLdeLj0WA6xlzRn2w/Da7wD4g==}
-    engines: {node: '>=18'}
+  patchright-core@1.63.0:
+    resolution: {integrity: sha512-nuRJVTMVKoOFzY8vmwFqJZR3F0trUCKiPzDSgCOPq/yHHTefm9czILV23dXJsi5mvS7sCy7U1CqG7edA/21DtQ==}
+    engines: {node: '>=20'}
     hasBin: true
 
-  patchright@1.60.2:
-    resolution: {integrity: sha512-4gkWJllmwVcqrcAxjecy6XFsA2df/VXVPj5t+Ezimwm/LPr2QYY8nzcj2FBAb/3u67wu58EXAPLlIZzuFKbeqA==}
-    engines: {node: '>=18'}
+  patchright@1.63.0:
+    resolution: {integrity: sha512-WVXhmNhAJ5I+CmcHEu/I3KMKhOlQaKS1XJsk+5nRIypKJ3Dq9IaQP29p4vB3I1FWCTarUXVRj02Na30wGcuztQ==}
+    engines: {node: '>=20'}
     hasBin: true
 
   path-exists@3.0.0:
@@ -3688,9 +3683,6 @@ snapshots:
       hasown: 2.0.4
       mime-types: 2.1.35
 
-  fsevents@2.3.2:
-    optional: true
-
   fsevents@2.3.3:
     optional: true
 
@@ -4408,13 +4400,11 @@ snapshots:
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
 
-  patchright-core@1.60.2: {}
+  patchright-core@1.63.0: {}
 
-  patchright@1.60.2:
+  patchright@1.63.0:
     dependencies:
-      patchright-core: 1.60.2
-    optionalDependencies:
-      fsevents: 2.3.2
+      patchright-core: 1.63.0
 
   path-exists@3.0.0: {}
 
