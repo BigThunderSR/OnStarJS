@@ -216,8 +216,8 @@ importers:
         specifier: ^13.2.1
         version: 13.2.1(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.2)
       dotenv:
-        specifier: ^18.0.5
-        version: 18.0.5
+        specifier: ^18.0.6
+        version: 18.0.6
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -1367,8 +1367,8 @@ packages:
   devtools-protocol@0.0.1538951:
     resolution: {integrity: sha512-6VbaDU0eOTnoMyFvl9Ee8cM+KSOuqc6LHiZNMczffKLEOq+e/qCzLEfK4yEldGSW6KTbI13/IFhqDDYl2yihjw==}
 
-  dotenv@18.0.5:
-    resolution: {integrity: sha512-aBrGvt6KhjxbEnatqMWOMidftwsrCiCvqh1yNIGB9QyF0J+VcWkKDMsvYOEm7ZS82oiV+BT1sTOtIlAmUlTpwQ==}
+  dotenv@18.0.6:
+    resolution: {integrity: sha512-ZMVmohV6CvAJtj++pZNyggluUt6hbRdQAxc2+Z635RL6/AG/ruXv5lHnybUFoxMPL/yrTL/tsF4paZu2l7RA6Q==}
     engines: {node: '>=12'}
     hasBin: true
 
@@ -3580,7 +3580,7 @@ snapshots:
 
   devtools-protocol@0.0.1538951: {}
 
-  dotenv@18.0.5: {}
+  dotenv@18.0.6: {}
 
   dotgitignore@2.1.0:
     dependencies:
