@@ -94,7 +94,7 @@
     "commit-and-tag-version": "^13.2.1",
     "dotenv": "^18.0.5",
     "husky": "9.1.7",
-    "jest": "^30.5.1",
+    "jest": "^30.5.2",
     "lint-staged": "^17.6.0",
     "prettier": "3.9.9",
     "rimraf": "^6.1.3",
