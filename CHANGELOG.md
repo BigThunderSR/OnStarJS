@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.16.7](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.6...v2.16.7) (2026-10-12)
+
+### Bug Fixes
+
+* allow @parcel/watcher build script in pnpm ([20e72dd](https://github.com/BigThunderSR/OnStarJS/commit/20e72ddf3881ae4fffe785602164eea306944933))
+* **deps:** bump axios from 1.19.0 to 1.20.0 ([22de8d3](https://github.com/BigThunderSR/OnStarJS/commit/22de8d336427d4cd00ecd9b6791edf339e8bc1a6))
+
 ## [2.16.6](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.5...v2.16.6) (2026-08-14)
 
 ### Bug Fixes
