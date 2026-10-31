@@ -19,6 +19,8 @@ Published as OnStarJS2 at <https://www.npmjs.com/package/onstarjs2> [![npm](http
 
 This library requires [chromium-bidi](https://www.npmjs.com/package/chromium-bidi) to be installed and available in your environment.
 
+> **⚠️ Ubuntu 26.04 users:** The Patchright version pinned by this package (1.60.2) does not support Ubuntu 26.04, so `npm install` / `pnpm install` fails in the `postinstall` step (`patchright install chromium`). Newer Patchright versions currently break authentication, so the pin can't be raised yet. Use Ubuntu 24.04 or earlier for now.
+
 ## Usage
 
 Use the Get Account Vehicles request to see which requests your vehicle supports if you don't already know.
