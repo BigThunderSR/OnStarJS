@@ -2722,19 +2722,16 @@ export class GMAuth {
         response.data.access_token,
       ) as DecodedPayload;
       if (!decodedPayload?.vehs) {
-        // Delete the tokens and start over
+        // GM occasionally returns a token without vehicle information while the
+        // saved tokens are still good. Keep them and let the caller retry later:
+        // discarding them forces a full sign-in, which GM may block.
         console.log(
-          "Returned GM API token was missing vehicle information. Deleting existing tokens for reauth.",
+          "Returned GM API token was missing vehicle information. Keeping saved tokens; the next attempt will retry.",
         );
-        if (fs.existsSync(this.MSTokenPath)) {
-          fs.renameSync(this.MSTokenPath, `${this.MSTokenPath}.old`);
-        }
-        if (fs.existsSync(this.GMTokenPath)) {
-          fs.renameSync(this.GMTokenPath, `${this.GMTokenPath}.old`);
-        }
-        // Clear current token in memory and recursively call authenticate()
         this.currentGMAPIToken = null;
-        return await this.authenticate();
+        throw new Error(
+          "GM API token was missing vehicle information; saved tokens were kept",
+        );
       }
 
       const expires_at =
