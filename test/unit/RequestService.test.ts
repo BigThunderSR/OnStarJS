@@ -1237,8 +1237,31 @@ describe("RequestService", () => {
     expect(url).toContain("performVehicleChargingMetricsQuery");
     expect(url).toContain(`vehicleVin=${testConfig.vin.toUpperCase()}`);
     const body = (httpClient.post as jest.Mock).mock.calls[0][1];
-    expect(body).toContain("vehicleId=vehicle-123");
-    expect(body).toContain("refreshTrigger=useEvVehicleTelemetry");
+    const bodyParams = new URLSearchParams(body);
+    expect(bodyParams.get("vehicleId")).toBe("vehicle-123");
+    expect(bodyParams.get("refreshTrigger")).toBe("pull_to_refresh");
+    expect(bodyParams.get("clientDeviceId")).toBe(testConfig.deviceId);
+    expect(bodyParams.get("clientRequestId")).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+    );
+  });
+
+  test("refreshEVChargingMetrics accepts a clientRequestId override", async () => {
+    jest.spyOn(requestService as any, "ensureEVSession").mockResolvedValue({
+      token: "ev-token",
+      vehicleId: "vehicle-123",
+    });
+    httpClient.post = jest.fn().mockResolvedValue({ data: { success: true } });
+    const clientRequestId = "d7e694cf-d655-42e2-8c42-ddfcb120defd";
+
+    await requestService.setClient(httpClient).refreshEVChargingMetrics({
+      clientRequestId,
+    });
+
+    const bodyParams = new URLSearchParams(
+      (httpClient.post as jest.Mock).mock.calls[0][1],
+    );
+    expect(bodyParams.get("clientRequestId")).toBe(clientRequestId);
   });
 
   test("refreshEVChargingMetrics retries on EV auth error (401)", async () => {
@@ -1267,6 +1290,13 @@ describe("RequestService", () => {
     expect(httpClient.post).toHaveBeenCalledTimes(2);
     expect(ensureSpy).toHaveBeenCalledTimes(2);
     expect(invalidateSpy).toHaveBeenCalledTimes(1);
+    const calls = (httpClient.post as jest.Mock).mock.calls;
+    const initialBody = new URLSearchParams(calls[0][1]);
+    const retryBody = new URLSearchParams(calls[1][1]);
+    expect(retryBody.get("clientRequestId")).toBe(
+      initialBody.get("clientRequestId"),
+    );
+    expect(retryBody.get("clientDeviceId")).toBe(testConfig.deviceId);
   });
 
   test("refreshEVChargingMetrics throws non-auth errors", async () => {

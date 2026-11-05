@@ -420,10 +420,13 @@ Returns fresh EV charging metrics and status information for electric vehicles. 
 onStar.refreshEVChargingMetrics([options]);
 ```
 
-| Option        | Default        | Valid Values             |
-| ------------- | -------------- | ------------------------ |
-| clientVersion | Shared default | Any version string       |
-| os            | "a"            | "a" (Android), "I" (iOS) |
+| Option          | Default        | Valid Values             |
+| --------------- | -------------- | ------------------------ |
+| clientRequestId | auto-generated | Any UUID string          |
+| clientVersion   | Shared default | Any version string       |
+| os              | "a"            | "a" (Android), "I" (iOS) |
+
+The form body uses `refreshTrigger=pull_to_refresh` and includes `clientDeviceId` from the configured `deviceId`.
 
 </details>
 

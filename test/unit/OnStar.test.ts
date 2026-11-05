@@ -85,6 +85,12 @@ describe("OnStar", () => {
     await onStar.refreshEVChargingMetrics();
   });
 
+  test("refreshEVChargingMetrics forwards clientRequestId", async () => {
+    const options = { clientRequestId: "test-refresh-123" };
+    await onStar.refreshEVChargingMetrics(options);
+    verify(requestService.refreshEVChargingMetrics(options)).once();
+  });
+
   test.skip("chargeOverride (disabled)", async () => {
     // Charging APIs are currently disabled
   });

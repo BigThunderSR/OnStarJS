@@ -467,6 +467,7 @@ class RequestService {
    * and returns the synchronous metrics payload. Retries once on EV auth errors.
    */
   async refreshEVChargingMetrics(opts?: {
+    clientRequestId?: string;
     clientVersion?: string;
     os?: "a" | "I"; // Android or iOS indicator for EV API metadata
   }): Promise<Result> {
@@ -494,7 +495,9 @@ class RequestService {
 
     const bodyParams = new URLSearchParams({
       vehicleId: vehicleId!,
-      refreshTrigger: "useEvVehicleTelemetry",
+      refreshTrigger: "pull_to_refresh",
+      clientRequestId: opts?.clientRequestId ?? randomUUID(),
+      clientDeviceId: this.config.deviceId,
     });
 
     const makeReq = (token: string) =>
