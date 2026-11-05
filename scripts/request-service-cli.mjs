@@ -7,6 +7,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { execSync } from "node:child_process";
 
+const onStarAppConfig = JSON.parse(
+  fs.readFileSync(
+    new URL("../src/onStarAppConfig.json", import.meta.url),
+    "utf8",
+  ),
+);
+
 function requireEnv(name) {
   const v = process.env[name];
   if (!v) throw new Error(`Missing required environment variable: ${name}`);
@@ -223,10 +230,13 @@ async function main() {
             ).trim() || undefined;
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 8.5.0.8060]: ")
+              await rl.question(
+                `clientVersion [default: ${onStarAppConfig.clientVersion}]: `,
+              )
             ).trim() || undefined;
-          const osAns = (await rl.question("os metadata [a|I] [default: a]: "))
-            .trim();
+          const osAns = (
+            await rl.question("os metadata [a|I] [default: a]: ")
+          ).trim();
           const os = osAns === "a" || osAns === "I" ? osAns : undefined;
           opts = { noMetricsRefresh, clientRequestId, clientVersion, os };
         }
@@ -275,10 +285,13 @@ async function main() {
             ).trim() || undefined;
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 8.5.0.8060]: ")
+              await rl.question(
+                `clientVersion [default: ${onStarAppConfig.clientVersion}]: `,
+              )
             ).trim() || undefined;
-          const osAns = (await rl.question("os metadata [a|I] [default: a]: "))
-            .trim();
+          const osAns = (
+            await rl.question("os metadata [a|I] [default: a]: ")
+          ).trim();
           const os = osAns === "a" || osAns === "I" ? osAns : undefined;
           opts = { noMetricsRefresh, clientRequestId, clientVersion, os };
         }
@@ -300,10 +313,13 @@ async function main() {
         if (useOpts) {
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 8.5.0.8060]: ")
+              await rl.question(
+                `clientVersion [default: ${onStarAppConfig.clientVersion}]: `,
+              )
             ).trim() || undefined;
-          const osAns = (await rl.question("os metadata [a|I] [default: a]: "))
-            .trim();
+          const osAns = (
+            await rl.question("os metadata [a|I] [default: a]: ")
+          ).trim();
           const os = osAns === "a" || osAns === "I" ? osAns : undefined;
           opts = { clientVersion, os };
         }
@@ -322,10 +338,13 @@ async function main() {
         if (useOpts) {
           const clientVersion =
             (
-              await rl.question("clientVersion [default: 8.5.0.8060]: ")
+              await rl.question(
+                `clientVersion [default: ${onStarAppConfig.clientVersion}]: `,
+              )
             ).trim() || undefined;
-          const osAns = (await rl.question("os metadata [a|I] [default: a]: "))
-            .trim();
+          const osAns = (
+            await rl.question("os metadata [a|I] [default: a]: ")
+          ).trim();
           const os = osAns === "a" || osAns === "I" ? osAns : undefined;
           opts = { clientVersion, os };
         }

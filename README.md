@@ -396,14 +396,18 @@ onStar.unlockTrunk([options]);
 
 Returns current EV charging metrics and status information for electric vehicles.
 
+The shared EV `clientVersion` default is defined in [src/onStarAppConfig.json](src/onStarAppConfig.json).
+Update that setting and rebuild to change the default for all EV requests and the CLI prompts.
+Pass `options.clientVersion` to override it for an individual request.
+
 ```javascript
 onStar.getEVChargingMetrics([options]);
 ```
 
-| Option        | Default      | Valid Values             |
-| ------------- | ------------ | ------------------------ |
-| clientVersion | "8.5.0.8060" | Any version string       |
-| os            | "a"          | "a" (Android), "I" (iOS) |
+| Option        | Default        | Valid Values             |
+| ------------- | -------------- | ------------------------ |
+| clientVersion | Shared default | Any version string       |
+| os            | "a"            | "a" (Android), "I" (iOS) |
 
 </details>
 
@@ -416,10 +420,10 @@ Returns fresh EV charging metrics and status information for electric vehicles. 
 onStar.refreshEVChargingMetrics([options]);
 ```
 
-| Option        | Default      | Valid Values             |
-| ------------- | ------------ | ------------------------ |
-| clientVersion | "8.5.0.8060" | Any version string       |
-| os            | "a"          | "a" (Android), "I" (iOS) |
+| Option        | Default        | Valid Values             |
+| ------------- | -------------- | ------------------------ |
+| clientVersion | Shared default | Any version string       |
+| os            | "a"            | "a" (Android), "I" (iOS) |
 
 </details>
 
@@ -437,7 +441,7 @@ onStar.setChargeLevelTarget(tcl, [options]);
 | tcl              | (required)     | 0-100 (percentage)       |
 | noMetricsRefresh | false          | true, false              |
 | clientRequestId  | auto-generated | Any UUID string          |
-| clientVersion    | "8.5.0.8060"   | Any version string       |
+| clientVersion    | Shared default | Any version string       |
 | os               | "a"            | "a" (Android), "I" (iOS) |
 
 </details>
@@ -455,7 +459,7 @@ onStar.stopCharging([options]);
 | ---------------- | -------------- | ------------------------ |
 | noMetricsRefresh | false          | true, false              |
 | clientRequestId  | auto-generated | Any UUID string          |
-| clientVersion    | "8.5.0.8060"   | Any version string       |
+| clientVersion    | Shared default | Any version string       |
 | os               | "a"            | "a" (Android), "I" (iOS) |
 
 </details>

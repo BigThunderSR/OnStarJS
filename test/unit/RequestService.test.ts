@@ -2,6 +2,7 @@ import RequestService from "../../src/RequestService";
 import { testConfig, authToken, expiredAuthToken } from "./testData";
 import { HttpClient, CommandResponseStatus } from "../../src/types";
 import Request, { RequestMethod } from "../../src/Request";
+import onStarAppConfig from "../../src/onStarAppConfig.json";
 
 describe("RequestService", () => {
   let requestService: RequestService;
@@ -779,6 +780,64 @@ describe("RequestService", () => {
     requestService["sendRequest"] = originalSendRequest;
   });
 
+  test.each([
+    "setChargeLevelTarget",
+    "stopCharging",
+    "getEVChargingMetrics",
+    "refreshEVChargingMetrics",
+  ] as const)(
+    "%s uses the shared clientVersion default and allows overrides",
+    async (method) => {
+      httpClient.post = jest.fn().mockResolvedValue({
+        data: {
+          results: [
+            {
+              loginResponse: { token: "ev-token" },
+              getVehicleChargingMetricsResponse: { vehicleId: "vehicle-123" },
+            },
+          ],
+        },
+      });
+      httpClient.get = jest.fn().mockResolvedValue({ data: {} });
+      requestService.setClient(httpClient);
+
+      if (method === "setChargeLevelTarget") {
+        await requestService[method](80);
+      } else {
+        await requestService[method]();
+      }
+
+      const initUrl = new URL((httpClient.post as jest.Mock).mock.calls[0][0]);
+      expect(initUrl.pathname).toContain("initSession");
+      expect(initUrl.searchParams.get("clientVersion")).toBe(
+        onStarAppConfig.clientVersion,
+      );
+
+      const commandMock = (
+        method === "getEVChargingMetrics" ? httpClient.get : httpClient.post
+      ) as jest.Mock;
+      const defaultUrl = new URL(
+        commandMock.mock.calls[commandMock.mock.calls.length - 1][0],
+      );
+      expect(defaultUrl.searchParams.get("clientVersion")).toBe(
+        onStarAppConfig.clientVersion,
+      );
+
+      const options = { clientVersion: "custom-version" };
+      if (method === "setChargeLevelTarget") {
+        await requestService[method](80, options);
+      } else {
+        await requestService[method](options);
+      }
+      const overrideUrl = new URL(
+        commandMock.mock.calls[commandMock.mock.calls.length - 1][0],
+      );
+      expect(overrideUrl.searchParams.get("clientVersion")).toBe(
+        options.clientVersion,
+      );
+    },
+  );
+
   test("setChargeLevelTarget with valid tcl", async () => {
     // Mock getAuthToken
     jest
@@ -819,7 +878,7 @@ describe("RequestService", () => {
       .setChargeLevelTarget(75, {
         noMetricsRefresh: true,
         clientRequestId: "test-123",
-        clientVersion: "8.5.0.8060",
+        clientVersion: onStarAppConfig.clientVersion,
         os: "I",
       });
     expect(result.status).toEqual(CommandResponseStatus.success);
@@ -969,7 +1028,7 @@ describe("RequestService", () => {
     const result = await requestService.setClient(httpClient).stopCharging({
       noMetricsRefresh: false,
       clientRequestId: "test-456",
-      clientVersion: "8.5.0.8060",
+      clientVersion: onStarAppConfig.clientVersion,
       os: "a",
     });
     expect(result.status).toEqual(CommandResponseStatus.success);
