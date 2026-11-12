@@ -98,7 +98,7 @@
     "lint-staged": "^17.6.0",
     "prettier": "3.9.10",
     "rimraf": "^6.1.4",
-    "rollup": "^4.66.0",
+    "rollup": "^4.68.2",
     "ts-jest": "^29.4.15",
     "ts-mockito": "^2.6.1",
     "tslib": "^2.9.1",
