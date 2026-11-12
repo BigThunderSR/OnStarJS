@@ -143,6 +143,7 @@ class OnStar {
 
   // EV: Force-refresh and get live charging metrics
   async refreshEVChargingMetrics(opts?: {
+    clientRequestId?: string;
     clientVersion?: string;
     os?: "a" | "I";
   }): Promise<Result> {

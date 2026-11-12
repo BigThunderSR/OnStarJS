@@ -4,6 +4,7 @@ import OnStar from "../../src/index";
 import RequestService from "../../src/RequestService";
 import { testConfig, authToken } from "./testData";
 import { Result } from "../../src/types";
+import onStarAppConfig from "../../src/onStarAppConfig.json";
 
 let onStar: OnStar;
 let requestService: RequestService;
@@ -62,7 +63,7 @@ describe("OnStar", () => {
     await onStar.setChargeLevelTarget(80, {
       noMetricsRefresh: true,
       clientRequestId: "test-123",
-      clientVersion: "8.5.0.8060",
+      clientVersion: onStarAppConfig.clientVersion,
       os: "I",
     });
   });
@@ -75,13 +76,19 @@ describe("OnStar", () => {
     await onStar.stopCharging({
       noMetricsRefresh: false,
       clientRequestId: "test-456",
-      clientVersion: "8.5.0.8060",
+      clientVersion: onStarAppConfig.clientVersion,
       os: "a",
     });
   });
 
   test("refreshEVChargingMetrics", async () => {
     await onStar.refreshEVChargingMetrics();
+  });
+
+  test("refreshEVChargingMetrics forwards clientRequestId", async () => {
+    const options = { clientRequestId: "test-refresh-123" };
+    await onStar.refreshEVChargingMetrics(options);
+    verify(requestService.refreshEVChargingMetrics(options)).once();
   });
 
   test.skip("chargeOverride (disabled)", async () => {
