@@ -174,7 +174,7 @@ importers:
         version: 17.0.2(devtools-protocol@0.0.1538951)
       http-cookie-agent:
         specifier: ^7.0.4
-        version: 7.0.4(tough-cookie@6.0.2)
+        version: 7.0.4(tough-cookie@6.1.0)
       jsonwebtoken:
         specifier: ^9.0.3
         version: 9.0.3
@@ -188,8 +188,8 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1
       tough-cookie:
-        specifier: ^6.0.2
-        version: 6.0.2
+        specifier: ^6.1.0
+        version: 6.1.0
       xvfb:
         specifier: ^0.4.0
         version: 0.4.0
@@ -2285,8 +2285,8 @@ packages:
   totp-generator@2.0.1:
     resolution: {integrity: sha512-50DiKmv9zKTPzCgWOqQYVBMvxh+tpL9O3IUFIqzGUlFXzJyb/IQZac8bonXudvLbfuDY8laZ9qTDX+yAvTBNSQ==}
 
-  tough-cookie@6.0.2:
-    resolution: {integrity: sha512-exgYmnmL/sJpR3upZfXG5PoatXQii55xAiXGXzY+sROLZ/Y+SLcp9PgJNI9Vz37HpQ74WvDcLT8eqm+kV3FzrA==}
+  tough-cookie@6.1.0:
+    resolution: {integrity: sha512-FTxc8u8Kl2tz0Lat1u8ksvcy8bwHRyEMawwTWybo51JqaC6O7SvfuhAKg+Ld6VqyIe2QRJBzY9HA7y2WyFRT2w==}
     engines: {node: '>=16'}
 
   ts-jest@29.4.15:
@@ -3766,10 +3766,10 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
-  http-cookie-agent@7.0.4(tough-cookie@6.0.2):
+  http-cookie-agent@7.0.4(tough-cookie@6.1.0):
     dependencies:
       agent-base: 9.0.0
-      tough-cookie: 6.0.2
+      tough-cookie: 6.1.0
 
   https-proxy-agent@5.0.1(supports-color@8.1.1):
     dependencies:
@@ -4641,7 +4641,7 @@ snapshots:
     dependencies:
       jssha: 3.3.2
 
-  tough-cookie@6.0.2:
+  tough-cookie@6.1.0:
     dependencies:
       tldts: 7.4.10
 
