@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.16.8](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.7...v2.16.8) (2026-11-13)
+
+### Bug Fixes
+
+* **deps:** bump axios from 1.20.0 to 1.21.0 ([bc22b21](https://github.com/BigThunderSR/OnStarJS/commit/bc22b215a2a7a708521a755a2ac672cbd98123ee))
+* **deps:** bump axios from 1.21.0 to 1.21.1 ([95716f1](https://github.com/BigThunderSR/OnStarJS/commit/95716f13edecd36460db4bd12808e9ede7718849))
+* **deps:** bump baseline-browser-mapping from 2.10.29 to 2.11.36 ([18472cf](https://github.com/BigThunderSR/OnStarJS/commit/18472cfd10f49de4579ad938eb66fb60508667f3))
+* **deps:** bump browserslist from 4.28.2 to 4.29.5 ([aa0125b](https://github.com/BigThunderSR/OnStarJS/commit/aa0125b53042347bb7481b4758b97985c1bd1e30))
+* **deps:** bump fast-xml-parser from 5.10.1 to 5.12.0 ([6a23c1b](https://github.com/BigThunderSR/OnStarJS/commit/6a23c1ba381a3dfb6cfae601e58f0105075215c2))
+* **deps:** bump js-yaml from 3.14.2 to 3.15.2 ([71d320f](https://github.com/BigThunderSR/OnStarJS/commit/71d320f2ee2db885420179f9b13f3c17de24226a))
+* **deps:** bump tough-cookie from 6.0.2 to 6.1.0 ([6e50adf](https://github.com/BigThunderSR/OnStarJS/commit/6e50adf22f47d9101618f9d1964e2ddc7eeb5a6e))
+* keep saved tokens when GM token lacks vehicle information ([6acb8f5](https://github.com/BigThunderSR/OnStarJS/commit/6acb8f5b69b75191b5f625da9756b07aaf0a4e8e)), references [BigThunderSR/onstar2mqtt#1070](https://github.com/BigThunderSR/OnStarJS/issues/1070)
+* send pull_to_refresh and clientDeviceId in refreshEVChargingMetrics ([#885](https://github.com/BigThunderSR/OnStarJS/issues/885)) ([b488024](https://github.com/BigThunderSR/OnStarJS/commit/b488024388c06cf5e45217562a3c69e35e32c837))
+
 ## [2.16.7](https://github.com/BigThunderSR/OnStarJS/compare/v2.16.6...v2.16.7) (2026-10-12)
 
 ### Bug Fixes
