@@ -2,7 +2,6 @@
 minimumReleaseAgeExclude:
   - electron-to-chromium@1.5.483
   - electron-to-chromium@1.5.484
-  - prettier@3.10.1
 allowBuilds:
   '@parcel/watcher': true
   sleep: true
