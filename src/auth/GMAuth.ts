@@ -17,7 +17,7 @@ import * as net from "net";
 
 // Strips a leading UTF-8 BOM before parsing, so cached token files that pick
 // one up (e.g. from being copied/restored via Windows tooling) still load
-// instead of failing JSON.parse and forcing an unnecessary full re-login.
+// instead of failing JSON.parse and rejecting usable tokens.
 // exported for unit testing
 export function readJSONFile<T>(filePath: string): T {
   const raw = fs.readFileSync(filePath, "utf-8");
@@ -3248,29 +3248,36 @@ export class GMAuth {
   private async loadMSToken(): Promise<TokenSet | false> {
     // console.log("Loading existing MS tokens, if they exist.");
     let tokenSet: TokenSet;
+    const renewalInstructions =
+      "Automatic reauthentication is disabled to avoid GM account blocking. Renew microsoft_tokens.json manually using the Firefox extension (https://github.com/metheos/onstar_firefox) and save it in your tokenLocation.";
 
     if (fs.existsSync(this.MSTokenPath)) {
       let storedTokens = null;
       try {
         storedTokens = readJSONFile<TokenSet>(this.MSTokenPath);
       } catch (err) {
-        console.log("Stored MS token was not parseable, getting new token");
-        return false;
+        throw new Error(
+          `Stored MS tokens could not be read or parsed. ${renewalInstructions}`,
+        );
       }
 
       // Decode the JWT payload
-      const decodedPayload = jwt.decode(storedTokens.access_token);
+      const decodedPayload =
+        typeof storedTokens?.access_token === "string"
+          ? jwt.decode(storedTokens.access_token)
+          : null;
       if (
         !decodedPayload ||
-        ((decodedPayload as any).name.toUpperCase() !==
-          this.config.username.toUpperCase() &&
-          (decodedPayload as any).email.toUpperCase() !==
-            this.config.username.toUpperCase())
+        typeof decodedPayload === "string" ||
+        ![decodedPayload.name, decodedPayload.email].some(
+          (identity) =>
+            typeof identity === "string" &&
+            identity.toUpperCase() === this.config.username.toUpperCase(),
+        )
       ) {
-        console.log(
-          "Stored MS token was for different user, getting new token",
+        throw new Error(
+          `Stored MS token is invalid or belongs to a different user. ${renewalInstructions}`,
         );
-        return false;
       }
 
       const now = Math.floor(Date.now() / 1000);
@@ -3298,19 +3305,9 @@ export class GMAuth {
         })();
 
         if (rtExpired) {
-          console.warn(
-            "🔁 Reauth: refresh token expired by pre-check; skipping refresh",
+          throw new Error(
+            `MS refresh token has expired. ${renewalInstructions}`,
           );
-          if (this.debugMode) {
-            console.log(
-              "debug: now=%d, refresh_expires_at=%s, refresh_obtained_at=%s",
-              now,
-              storedTokens.refresh_expires_at ?? "n/a",
-              storedTokens.refresh_obtained_at ?? "n/a",
-            );
-          }
-          const newTokenSet = await this.doFullAuthSequence();
-          return newTokenSet;
         }
 
         const client = await this.setupOpenIDClient();
@@ -3345,25 +3342,22 @@ export class GMAuth {
           // Persist
           fs.writeFileSync(this.MSTokenPath, JSON.stringify(tokenSet));
         } catch (e: any) {
-          // If the IdP says invalid_grant/expired, do a full re-auth
+          // Rejected refresh tokens must not trigger browser sign-in retries.
           const msg = e?.error_description || e?.message || String(e);
           const isInvalidGrant =
             e?.error === "invalid_grant" || /invalid_grant/i.test(msg);
           const isExpiredGrant = /AADB2C90080|expired/i.test(msg);
           if (isInvalidGrant || isExpiredGrant) {
-            console.warn(
-              "🔁 Reauth: refresh rejected by IdP (invalid_grant/expired)",
+            throw new Error(
+              `MS refresh token was rejected by the authentication provider (invalid_grant/expired). ${renewalInstructions}`,
             );
-            if (this.debugMode) {
-              console.log("debug: provider error: %s", msg);
-            }
-            const newTokenSet = await this.doFullAuthSequence();
-            return newTokenSet;
           }
           throw e;
         }
       } else {
-        throw new Error("Token expired and no refresh token available.");
+        throw new Error(
+          `MS access token has expired and no refresh token is available. ${renewalInstructions}`,
+        );
       }
       return tokenSet;
     }
