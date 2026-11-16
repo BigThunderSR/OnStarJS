@@ -60,6 +60,12 @@ GM's auth server uses bot detection that is unpredictable. On an `Access Denied`
 
 If automated authentication is consistently blocked for no explainable reason, use the [OnStar Auth Token Saver Firefox extension](https://github.com/metheos/onstar_firefox) to generate `microsoft_tokens.json` manually and place it in your `tokenLocation`. The library will use and refresh it for ~60 days.
 
+### Expired or invalid saved tokens
+
+The library still refreshes valid saved tokens, but it no longer falls back to automated browser sign-in when saved MS tokens are invalid, unreadable, for a different account, or cannot be refreshed because the refresh token is expired or rejected. It throws an error requesting manual token renewal instead, preventing repeated MFA attempts that can cause GM to block your account.
+
+Generate a new `microsoft_tokens.json` with the [OnStar Auth Token Saver Firefox extension](https://github.com/metheos/onstar_firefox) and replace the file in your `tokenLocation`. Saved token files are kept on failure, so repeated requests or application restarts do not trigger browser sign-in. First-time authentication when no saved MS token file exists is unchanged.
+
 ## Sample
 
 Use a random version 4 uuid as a deviceId. Generator available [at this link](https://www.uuidgenerator.net/version4).
