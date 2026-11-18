@@ -95,7 +95,7 @@
     "dotenv": "^18.0.10",
     "husky": "9.1.7",
     "jest": "^30.5.2",
-    "lint-staged": "^17.6.0",
+    "lint-staged": "^17.6.1",
     "prettier": "3.9.10",
     "rimraf": "^6.1.4",
     "rollup": "^4.68.2",
